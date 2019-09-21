@@ -1,8 +1,23 @@
-ADVERTS_QUANTITY = 8;
-HOUSING_TYPES = ['palace', 'flat', 'house', 'bungalo'];
-HOUSING_CHECK_TIME = ['12:00', '13:00', '14:00'];
-HOUSING_FEATURES = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
-HOUSING_PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
+'use strict';
+
+var ADVERTS_QUANTITY = 8;
+var HOUSING_TYPES = ['palace', 'flat', 'house', 'bungalo'];
+var HOUSING_CHECK_TIMES = ['12:00', '13:00', '14:00'];
+var HOUSING_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var HOUSING_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var HOUSING_MAX_ADRESS = 1100;
+var HOUSING_MIN_ADRESS = 100;
+var MAX_PRICE = 50000;
+var MIN_PRICE = 1000;
+var MAX_ROOMS = 3;
+var MIN_ROOMS = 1;
+var MAX_QUESTS = 12;
+var MIN_QUESTS = 1;
+var MAX_PIN_X = 1150;
+var MIN_PIN_X = 50;
+var MAX_PIN_Y = 630;
+var MIN_PIN_Y = 130;
+
 var map = document.querySelector('.map');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 var fragment = document.createDocumentFragment();
@@ -12,43 +27,51 @@ var getRandomNumber = function (maxValue, minValue) {
   var result = Math.floor(Math.random() * (maxValue + 1));
   if (minValue) {
     while (result <= minValue) {
-    result = Math.floor(Math.random() * (maxValue + 1));
+      result = Math.floor(Math.random() * (maxValue + 1));
     }
   }
   return result;
-}
+};
 
-var getMokiData = function (housingTypes, housingChecktime, housingFeatures, housingPhotos) {
+var getMokiData = function (housingTypes, housingChecktimes, housingFeatures, housingPhotos) {
   var adverts = [];
   for (var i = 0; i < ADVERTS_QUANTITY; i++) {
+    var featuresList = [];
+    for (var counter = 0; counter < getRandomNumber(housingFeatures.length); counter++) {
+      featuresList.push(housingFeatures[counter]);
+    }
+    var photosList = [];
+    for (var counterPhoto = 0; counterPhoto < getRandomNumber(housingPhotos.length); counterPhoto++) {
+      photosList.push(housingPhotos[counterPhoto]);
+    }
     var advert = {
       author: {
-        avatar: 'img/avatars/user' + '0' + (i + 1) +'.png'
+        avatar: 'img/avatars/user' + '0' + (i + 1) + '.png'
       },
 
       offer: {
-        title: 'Best',
-        adress: getRandomNumber(1180, 20) + ', ' + getRandomNumber(1180, 20),
-        price: getRandomNumber(10000, 2000),
+        title: 'Отличный выбор',
+        adress: getRandomNumber(HOUSING_MAX_ADRESS, HOUSING_MIN_ADRESS) + ', ' + getRandomNumber(HOUSING_MAX_ADRESS, HOUSING_MIN_ADRESS),
+        price: getRandomNumber(MAX_PRICE, MIN_PRICE),
         type: housingTypes[getRandomNumber(housingTypes.length - 1)],
-        rooms: getRandomNumber(6, 1),
-        quests: getRandomNumber(12, 1),
-        checkin: housingChecktime[getRandomNumber(housingChecktime.length - 1)],
-        checkout: housingChecktime[getRandomNumber(housingChecktime.length - 1)],
-        features: housingFeatures,
+        rooms: getRandomNumber(MAX_ROOMS, MIN_ROOMS),
+        quests: getRandomNumber(MAX_QUESTS, MIN_QUESTS),
+        checkin: housingChecktimes[getRandomNumber(housingChecktimes.length - 1)],
+        checkout: housingChecktimes[getRandomNumber(housingChecktimes.length - 1)],
+        features: featuresList,
         description: '',
-        photos: housingPhotos
+        photos: photosList
       },
 
       location: {
-        x: getRandomNumber(1150, 50),
-        y: getRandomNumber(630, 130)
+        x: getRandomNumber(MAX_PIN_X, MIN_PIN_X),
+        y: getRandomNumber(MAX_PIN_Y, MIN_PIN_Y)
       }
     };
     adverts.push(advert);
   }
   return adverts;
-}
+};
 
 map.classList.remove('map--faded');
 
@@ -59,18 +82,15 @@ var renderPin = function (pinData) {
   pin.querySelector('img').src = pinData.author.avatar;
   pin.querySelector('img').alt = pinData.offer.title;
   return pin;
-}
+};
 
 var addElement = function (housingTypes, housingChecktime, housingFeatures, housingPhotos) {
   var pins = getMokiData(housingTypes, housingChecktime, housingFeatures, housingPhotos);
-
   for (var j = 0; j < pins.length; j++) {
     fragment.appendChild(renderPin(pins[j]));
   }
-}
+};
 
-addElement(HOUSING_TYPES, HOUSING_CHECK_TIME, HOUSING_FEATURES, HOUSING_PHOTOS);
+addElement(HOUSING_TYPES, HOUSING_CHECK_TIMES, HOUSING_FEATURES, HOUSING_PHOTOS);
 
 pinList.appendChild(fragment);
-
-console.log(getMokiData(HOUSING_TYPES, HOUSING_CHECK_TIME, HOUSING_FEATURES, HOUSING_PHOTOS));
