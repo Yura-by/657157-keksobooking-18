@@ -18,6 +18,36 @@ var MIN_PIN_X = 50;
 var MAX_PIN_Y = 630;
 var MIN_PIN_Y = 130;
 
+var advertsData = {
+  QUANTITY: 8,
+  TYPES: ['palace', 'flat', 'house', 'bungalo'],
+  TIMES: ['12:00', '13:00', '14:00'],
+  FEATURES: ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
+  PHOTOS: ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'],
+  price: {
+    MAX: 50000,
+    MIN: 10000
+  },
+  rooms: {
+    MAX: 3,
+    MIN: 1
+  },
+  quests: {
+    MAX: 12,
+    MIN: 1
+  },
+  pinCoordinates: {
+    X: {
+      MAX: 1150,
+      MIN: 50
+    },
+    Y: {
+      MAX: 630,
+      MIN: 130
+    }
+  }
+};
+
 var map = document.querySelector('.map');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 var fragment = document.createDocumentFragment();
