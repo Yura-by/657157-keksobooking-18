@@ -52,7 +52,8 @@ var getRandomLengthArray = function (array) {
 };
 
 var getRandomElementFromArray = function (elements) {
-  return elements[getRandomNumber(elements.length - 1)];
+  var randomIndex = getRandomNumber(elements.length - 1);
+  return elements[randomIndex];
 };
 
 var getMokiData = function (advertsData) {
@@ -65,7 +66,6 @@ var getMokiData = function (advertsData) {
 
       offer: {
         title: getRandomElementFromArray(advertsData.TYPES),
-        adress: '',
         price: getRandomNumber(advertsData.price.MAX, advertsData.price.MIN),
         type: getRandomElementFromArray(advertsData.TYPES),
         rooms: getRandomNumber(advertsData.rooms.MAX, advertsData.rooms.MIN),
@@ -82,7 +82,7 @@ var getMokiData = function (advertsData) {
         y: getRandomNumber(advertsData.pinCoordinates.Y.MAX, advertsData.pinCoordinates.Y.MIN)
       }
     };
-    advert.adress = advert.location.x + ', ' + advert.location.y;
+    advert.offer.adress = advert.location.x + ', ' + advert.location.y;
     adverts.push(advert);
   }
   return adverts;
@@ -90,9 +90,7 @@ var getMokiData = function (advertsData) {
 
 map.classList.remove('map--faded');
 
-
-
-/*ОБЪЕДИНЕННЕАЯ ФУНКЦИЯ ПОЛУЧЕНИЯ ФРАГМЕНТА var createFragmentPins = function (pinsData) {
+var createFragmentPins = function (pinsData) {
   var pinsInner = getMokiData(pinsData);
   for (var j = 0; j < pinsInner.length; j++) {
     var pin = templatePin.cloneNode(true);
@@ -103,28 +101,6 @@ map.classList.remove('map--faded');
     fragment.appendChild(pin);
   }
   return fragment;
-};*/
-
-
-
-
-
-var renderPin = function (pinData) {
-  var pin = templatePin.cloneNode(true);
-  pin.style.left = pinData.location.x + 'px';
-  pin.style.top = pinData.location.y + 'px';
-  pin.querySelector('img').src = pinData.author.avatar;
-  pin.querySelector('img').alt = pinData.offer.title;
-  return pin;
 };
 
-var addPins = function (pinsInside) {
-  var pins = getMokiData(pinsInside);
-  for (var j = 0; j < pins.length; j++) {
-    fragment.appendChild(renderPin(pins[j]));
-  }
-};
-
-addPins(mokiData);
-
-pinList.appendChild(fragment);
+pinList.appendChild(createFragmentPins(mokiData));
