@@ -12,7 +12,7 @@ var mokiData = {
   },
   rooms: {
     MAX: 3,
-    MIN: 1
+    MIN: 2
   },
   quests: {
     MAX: 12,
@@ -69,7 +69,7 @@ var getMokiData = function (advertsData) {
         price: getRandomNumber(advertsData.price.MAX, advertsData.price.MIN),
         type: getRandomElementFromArray(advertsData.TYPES),
         rooms: getRandomNumber(advertsData.rooms.MAX, advertsData.rooms.MIN),
-        quests: getRandomNumber(advertsData.quests.MAX, advertsData.quests.MIN),
+        guests: getRandomNumber(advertsData.quests.MAX, advertsData.quests.MIN),
         checkin: getRandomElementFromArray(advertsData.TIMES),
         checkout: getRandomElementFromArray(advertsData.TIMES),
         features: getRandomLengthArray(advertsData.FEATURES),
@@ -82,16 +82,17 @@ var getMokiData = function (advertsData) {
         y: getRandomNumber(advertsData.pinCoordinates.Y.MAX, advertsData.pinCoordinates.Y.MIN)
       }
     };
-    advert.offer.adress = advert.location.x + ', ' + advert.location.y;
+    advert.offer.address = advert.location.x + ', ' + advert.location.y;
     adverts.push(advert);
   }
   return adverts;
 };
 
+var advertsMokiData = getMokiData(mokiData);
+
 map.classList.remove('map--faded');
 
-var createFragmentPins = function (pinsData) {
-  var pinsInner = getMokiData(pinsData);
+var createFragmentPins = function (pinsInner) {
   for (var j = 0; j < pinsInner.length; j++) {
     var pin = templatePin.cloneNode(true);
     pin.style.left = pinsInner[j].location.x + 'px';
@@ -103,4 +104,29 @@ var createFragmentPins = function (pinsData) {
   return fragment;
 };
 
-pinList.appendChild(createFragmentPins(mokiData));
+pinList.appendChild(createFragmentPins(advertsMokiData));
+
+
+
+var templateCard = document.querySelector('#card').content.querySelector('.popup');
+
+var translateType = {
+  palace:'Дворец',
+  flat:'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало'
+};
+
+var createCardElement = function (cardInner) {
+  var card = templateCard.cloneNode(true);
+  card.querySelector('.popup__title').textContent = cardInner[0].offer.title;
+  card.querySelector('.popup__text--address').textContent = cardInner[0].offer.address;
+  card.querySelector('.popup__text--price').textContent = cardInner[0].offer.price + '₽/ночь';
+  card.querySelector('.popup__type').textContent = translateType[cardInner[0].offer.type];
+  card.querySelector('.popup__text--capacity').textContent = cardInner[0].offer.rooms + ' комнаты для ' + cardInner[0].offer.guests + ' гостей';
+  card.querySelector('.popup__text--time').textContent = 'заезд после ' + cardInner[0].offer.checkin + ', выезд до ' + cardInner[0].offer.checkout;
+  //card.querySelector('.popup__features').textContent = cardInner[0].offer.features;
+  return card;
+};
+
+console.log(createCardElement(advertsMokiData));
