@@ -33,7 +33,16 @@ var mokiData = {
 var map = document.querySelector('.map');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 var fragment = document.createDocumentFragment();
-var pinList = document.querySelector('.map__pins');
+var pinList = map.querySelector('.map__pins');
+var templateCard = document.querySelector('#card').content.querySelector('.popup');
+var mapFiltersContainer = map.querySelector('.map__filters-container');
+
+var translateType = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало'
+};
 
 var getRandomNumber = function (maxValue, minValue) {
   var result = Math.floor(Math.random() * (maxValue + 1));
@@ -106,15 +115,6 @@ var createFragmentPins = function (pinsInner) {
 
 pinList.appendChild(createFragmentPins(advertsMokiData));
 
-var templateCard = document.querySelector('#card').content.querySelector('.popup');
-
-var translateType = {
-  palace:'Дворец',
-  flat:'Квартира',
-  house: 'Дом',
-  bungalo: 'Бунгало'
-};
-
 var featuresAssembly = function (featuresBox, featuresList) {
   for (var j = 0; j < featuresList.length; j++) {
     featuresBox.children[j].textContent = featuresList[j];
@@ -127,8 +127,16 @@ var featuresAssembly = function (featuresBox, featuresList) {
 };
 
 var createPhotosList = function (photosBox, photosSources) {
-  console.log(photosBox);
-  console.log(photosSources);
+  if (photosSources.length > 0) {
+    photosBox.querySelector('.popup__photo').src = photosSources[0];
+    for (var i = 1; i < photosSources.length; i++) {
+      var imgClone = photosBox.querySelector('.popup__photo').cloneNode(true);
+      imgClone.src = photosSources[i];
+      photosBox.appendChild(imgClone);
+    }
+  } else {
+    photosBox.children[0].remove();
+  }
 };
 
 var createCardElement = function (cardInner) {
@@ -142,8 +150,8 @@ var createCardElement = function (cardInner) {
   featuresAssembly(card.querySelector('.popup__features'), cardInner[0].offer.features);
   card.querySelector('.popup__description').textContent = cardInner[0].offer.description;
   createPhotosList(card.querySelector('.popup__photos'), cardInner[0].offer.photos);
-
+  card.querySelector('.popup__avatar').src = cardInner[0].author.avatar;
   return card;
 };
 
-console.log(createCardElement(advertsMokiData));
+map.insertBefore(createCardElement(advertsMokiData), mapFiltersContainer);
