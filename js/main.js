@@ -51,6 +51,10 @@ var getRandomLengthArray = function (array) {
   return resultArray;
 };
 
+var getRandomElementFromArray = function (elements) {
+  return elements[getRandomNumber(elements.length - 1)];
+};
+
 var getMokiData = function (advertsData) {
   var adverts = [];
   for (var i = 0; i < advertsData.QUANTITY; i++) {
@@ -60,16 +64,16 @@ var getMokiData = function (advertsData) {
       },
 
       offer: {
-        title: advertsData.TYPES[getRandomNumber(advertsData.TYPES.length - 1)],
-        adress: getRandomNumber(advertsData.pinCoordinates.X.MAX, advertsData.pinCoordinates.X.MIN) + ', ' + getRandomNumber(advertsData.pinCoordinates.Y.MAX, advertsData.pinCoordinates.Y.MIN),
+        title: getRandomElementFromArray(advertsData.TYPES),
+        adress: '',
         price: getRandomNumber(advertsData.price.MAX, advertsData.price.MIN),
-        type: advertsData.TYPES[getRandomNumber(advertsData.TYPES.length - 1)],
+        type: getRandomElementFromArray(advertsData.TYPES),
         rooms: getRandomNumber(advertsData.rooms.MAX, advertsData.rooms.MIN),
         quests: getRandomNumber(advertsData.quests.MAX, advertsData.quests.MIN),
-        checkin: advertsData.TIMES[getRandomNumber(advertsData.TIMES.length - 1)],
-        checkout: advertsData.TIMES[getRandomNumber(advertsData.TIMES.length - 1)],
+        checkin: getRandomElementFromArray(advertsData.TIMES),
+        checkout: getRandomElementFromArray(advertsData.TIMES),
         features: getRandomLengthArray(advertsData.FEATURES),
-        description: advertsData.TYPES[getRandomNumber(advertsData.TYPES.length - 1)],
+        description: getRandomElementFromArray(advertsData.TYPES),
         photos: getRandomLengthArray(advertsData.PHOTOS)
       },
 
@@ -78,12 +82,32 @@ var getMokiData = function (advertsData) {
         y: getRandomNumber(advertsData.pinCoordinates.Y.MAX, advertsData.pinCoordinates.Y.MIN)
       }
     };
+    advert.adress = advert.location.x + ', ' + advert.location.y;
     adverts.push(advert);
   }
   return adverts;
 };
 
 map.classList.remove('map--faded');
+
+
+
+/*ОБЪЕДИНЕННЕАЯ ФУНКЦИЯ ПОЛУЧЕНИЯ ФРАГМЕНТА var createFragmentPins = function (pinsData) {
+  var pinsInner = getMokiData(pinsData);
+  for (var j = 0; j < pinsInner.length; j++) {
+    var pin = templatePin.cloneNode(true);
+    pin.style.left = pinsInner[j].location.x + 'px';
+    pin.style.top = pinsInner[j].location.y + 'px';
+    pin.querySelector('img').src = pinsInner[j].author.avatar;
+    pin.querySelector('img').alt = pinsInner[j].offer.title;
+    fragment.appendChild(pin);
+  }
+  return fragment;
+};*/
+
+
+
+
 
 var renderPin = function (pinData) {
   var pin = templatePin.cloneNode(true);
