@@ -30,12 +30,32 @@ var mokiData = {
   }
 };
 
+var pinMain = {
+  size: {
+    WIDTH: 65,
+    HEIGHT: 87,
+    DEFAULT_HEIGHT: 65
+  },
+  position: {
+    X: 300,
+    Y: 200
+  }
+};
+
+var ENTER_KEYCODE = 13;
 var map = document.querySelector('.map');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 var fragment = document.createDocumentFragment();
 var pinList = map.querySelector('.map__pins');
 var templateCard = document.querySelector('#card').content.querySelector('.popup');
 var mapFiltersContainer = map.querySelector('.map__filters-container');
+var adForm = document.querySelector('.ad-form');
+var elementsAdForm = adForm.children;
+var elementsMapFiltersForm = map.querySelector('.map__filters').children;
+var mapPinMain = map.querySelector('.map__pin--main');
+var inputAddress = adForm.querySelector('#address');
+var roomNumber = adForm.querySelector('#room_number');
+var capacity = adForm.querySelector('#capacity')
 
 var translateType = {
   palace: 'Дворец',
@@ -98,8 +118,6 @@ var getMokiData = function (advertsData) {
 
 var advertsMokiData = getMokiData(mokiData);
 
-map.classList.remove('map--faded');
-
 var createFragmentPins = function (pinsInner) {
   for (var j = 0; j < pinsInner.length; j++) {
     var pin = templatePin.cloneNode(true);
@@ -112,7 +130,7 @@ var createFragmentPins = function (pinsInner) {
   return fragment;
 };
 
-pinList.appendChild(createFragmentPins(advertsMokiData));
+//pinList.appendChild(createFragmentPins(advertsMokiData));
 
 var featuresAssembly = function (featuresBox, featuresList) {
   for (var j = 0; j < featuresList.length; j++) {
@@ -153,4 +171,89 @@ var createCardElement = function (cardInner) {
   return card;
 };
 
-map.insertBefore(createCardElement(advertsMokiData), mapFiltersContainer);
+//map.insertBefore(createCardElement(advertsMokiData), mapFiltersContainer);
+
+var toggleDisabledAttribute = function (collectionElements, isDisabled) {
+  for (var i = 0; i < collectionElements.length; i++) {
+    collectionElements[i].disabled = isDisabled;
+  }
+};
+
+var setAddress = function (isDefault) {
+  var pointerHeight = isDefault ? pinMain.size.DEFAULT_HEIGHT / 2 : pinMain.size.HEIGHT;
+  inputAddress.value = Math.round(pinMain.position.X + mapPinMain.offsetLeft + pinMain.size.WIDTH / 2) + ', ' + Math.round(pinMain.position.Y + mapPinMain.offsetTop + pointerHeight);
+};
+
+var getInactiveState = function () {
+  toggleDisabledAttribute(elementsAdForm, true);
+  toggleDisabledAttribute(elementsMapFiltersForm, true);
+  setAddress(true);
+};
+
+getInactiveState();
+
+var getActiveState = function () {
+  toggleDisabledAttribute(elementsAdForm);
+  toggleDisabledAttribute(elementsMapFiltersForm);
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  setAddress();
+};
+
+mapPinMain.addEventListener ('mousedown', function () {
+  getActiveState();
+});
+
+mapPinMain.addEventListener ('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    getActiveState();
+  }
+});
+
+
+capacity.value = '1';
+capacity.children[0].disabled = true;
+capacity.children[1].disabled = true;
+capacity.children[3].disabled = true;
+
+var getCapacityOptions = function () {
+  for (var i = 0; i < capacity.children.length; i++) {
+    capacity.children[i].disabled = false;
+  }
+
+  if (roomNumber.value === '1') {
+    capacity.value = '1';
+    capacity.children[0].disabled = true;
+    capacity.children[1].disabled = true;
+    capacity.children[3].disabled = true;
+  }
+
+  if (roomNumber.value === '2') {
+    capacity.value = '2';
+    capacity.children[0].disabled = true;
+    capacity.children[3].disabled = true;
+  }
+
+  if (roomNumber.value === '3') {
+    capacity.value = '3';
+    capacity.children[3].disabled = true;
+  }
+
+  if (roomNumber.value === '100') {
+    capacity.children[3].selected;
+    capacity.value = '0';
+    capacity.children[0].disabled = true;
+    capacity.children[1].disabled = true;
+    capacity.children[2].disabled = true;
+  }
+    capacity.setCustomValidity('Проверьте, пожалуйста, количество гостей!');
+    alert('Проверьте, пожалуйста, количество гостей!');
+};
+
+roomNumber.addEventListener('change', getCapacityOptions);
+
+
+
+
+
+
