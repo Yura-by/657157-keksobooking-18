@@ -61,8 +61,7 @@ var getRandomLengthArray = function (array) {
 };
 
 var getRandomElementFromArray = function (elements) {
-  var randomIndex = getRandomNumber(elements.length - 1);
-  return elements[randomIndex];
+  return elements[getRandomNumber(elements.length - 1)];
 };
 
 var getMokiData = function (advertsData) {
