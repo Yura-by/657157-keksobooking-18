@@ -1,6 +1,6 @@
 'use strict';
 
-var mokiData = {
+/* var mokiData = {
   QUANTITY: 8,
   TYPES: ['palace', 'flat', 'house', 'bungalo'],
   TIMES: ['12:00', '13:00', '14:00'],
@@ -28,7 +28,7 @@ var mokiData = {
       MIN: 130
     }
   }
-};
+};*/
 
 var pinMain = {
   size: {
@@ -42,22 +42,36 @@ var pinMain = {
   }
 };
 
+var quantityRooms = {
+  OPTION_1: '1',
+  OPTION_2: '2',
+  OPTION_3: '3',
+  OPTION_4: '100'
+};
+
+var capacityChildren = {
+  CHILD_1: 0,
+  CHILD_2: 1,
+  CHILD_3: 2,
+  CHILD_4: 3
+};
+
 var ENTER_KEYCODE = 13;
 var map = document.querySelector('.map');
-var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
-var fragment = document.createDocumentFragment();
-var pinList = map.querySelector('.map__pins');
-var templateCard = document.querySelector('#card').content.querySelector('.popup');
-var mapFiltersContainer = map.querySelector('.map__filters-container');
+// var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
+// var fragment = document.createDocumentFragment();
+// var pinList = map.querySelector('.map__pins');
+// var templateCard = document.querySelector('#card').content.querySelector('.popup');
+// var mapFiltersContainer = map.querySelector('.map__filters-container');
 var adForm = document.querySelector('.ad-form');
 var elementsAdForm = adForm.children;
 var elementsMapFiltersForm = map.querySelector('.map__filters').children;
 var mapPinMain = map.querySelector('.map__pin--main');
 var inputAddress = adForm.querySelector('#address');
 var roomNumber = adForm.querySelector('#room_number');
-var capacity = adForm.querySelector('#capacity')
+var capacity = adForm.querySelector('#capacity');
 
-var translateType = {
+/* var translateType = {
   palace: 'Дворец',
   flat: 'Квартира',
   house: 'Дом',
@@ -130,7 +144,7 @@ var createFragmentPins = function (pinsInner) {
   return fragment;
 };
 
-//pinList.appendChild(createFragmentPins(advertsMokiData));
+pinList.appendChild(createFragmentPins(advertsMokiData));
 
 var featuresAssembly = function (featuresBox, featuresList) {
   for (var j = 0; j < featuresList.length; j++) {
@@ -171,7 +185,7 @@ var createCardElement = function (cardInner) {
   return card;
 };
 
-//map.insertBefore(createCardElement(advertsMokiData), mapFiltersContainer);
+map.insertBefore(createCardElement(advertsMokiData), mapFiltersContainer);*/
 
 var toggleDisabledAttribute = function (collectionElements, isDisabled) {
   for (var i = 0; i < collectionElements.length; i++) {
@@ -200,63 +214,61 @@ var getActiveState = function () {
   setAddress();
 };
 
-mapPinMain.addEventListener ('mousedown', function () {
+mapPinMain.addEventListener('mousedown', function () {
   getActiveState();
 });
 
-mapPinMain.addEventListener ('keydown', function (evt) {
+mapPinMain.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     getActiveState();
   }
 });
 
+var getCapacityState = function (value, first, second, third) {
+  capacity.value = value + '';
+  capacity.children[first].disabled = true;
+  if (second) {
+    capacity.children[second].disabled = true;
+  }
+  if (third) {
+    capacity.children[third].disabled = true;
+  }
+};
+
 var cleaningValidityMessage = function () {
   capacity.setCustomValidity('');
 };
 
-capacity.value = '1';
-capacity.children[0].disabled = true;
-capacity.children[1].disabled = true;
-capacity.children[3].disabled = true;
+var getSubmitRemoveDefault = function (evt) {
+  evt.preventDefault();
+};
+
+getCapacityState(capacityChildren.CHILD_2, capacityChildren.CHILD_1, capacityChildren.CHILD_2, capacityChildren.CHILD_4);
 
 var getCapacityOptions = function () {
   for (var i = 0; i < capacity.children.length; i++) {
     capacity.children[i].disabled = false;
   }
 
-  if (roomNumber.value === '1') {
-    capacity.value = '1';
-    capacity.children[0].disabled = true;
-    capacity.children[1].disabled = true;
-    capacity.children[3].disabled = true;
+  if (roomNumber.value === quantityRooms.OPTION_1) {
+    getCapacityState(capacityChildren.CHILD_2, capacityChildren.CHILD_1, capacityChildren.CHILD_2, capacityChildren.CHILD_4);
+  } else if (roomNumber.value === quantityRooms.OPTION_2) {
+    getCapacityState(capacityChildren.CHILD_3, capacityChildren.CHILD_1, capacityChildren.CHILD_4);
+  } else if (roomNumber.value === quantityRooms.OPTION_3) {
+    getCapacityState(capacityChildren.CHILD_4, capacityChildren.CHILD_4);
+  } else if (roomNumber.value === quantityRooms.OPTION_4) {
+    getCapacityState(capacityChildren.CHILD_1, capacityChildren.CHILD_1, capacityChildren.CHILD_2, capacityChildren.CHILD_3);
   }
 
-  if (roomNumber.value === '2') {
-    capacity.value = '2';
-    capacity.children[0].disabled = true;
-    capacity.children[3].disabled = true;
-  }
+  capacity.setCustomValidity('Проверьте, пожалуйста, количество мест для гостей!');
 
-  if (roomNumber.value === '3') {
-    capacity.value = '3';
-    capacity.children[3].disabled = true;
-  }
+  adForm.addEventListener('submit', getSubmitRemoveDefault);
 
-  if (roomNumber.value === '100') {
-    capacity.children[3].selected;
-    capacity.value = '0';
-    capacity.children[0].disabled = true;
-    capacity.children[1].disabled = true;
-    capacity.children[2].disabled = true;
-  }
-    capacity.setCustomValidity('Проверьте, пожалуйста, количество мест для гостей!');
-    setTimeout(cleaningValidityMessage, 3000);
+
+  adForm.removeEventListener('submit', getSubmitRemoveDefault);
+
+
+  //setTimeout(cleaningValidityMessage, 3000);
 };
 
 roomNumber.addEventListener('change', getCapacityOptions);
-
-
-
-
-
-
