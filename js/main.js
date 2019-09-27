@@ -237,15 +237,16 @@ var getCapacityState = function (value, first, second, third) {
 
 var cleaningValidityMessage = function () {
   capacity.setCustomValidity('');
+  adForm.removeEventListener('submit', adFormSubmitHandler);
 };
 
-var getSubmitRemoveDefault = function (evt) {
+var adFormSubmitHandler = function (evt) {
   evt.preventDefault();
 };
 
 getCapacityState(capacityChildren.CHILD_2, capacityChildren.CHILD_1, capacityChildren.CHILD_2, capacityChildren.CHILD_4);
 
-var getCapacityOptions = function () {
+var capacityChangeHandler = function () {
   for (var i = 0; i < capacity.children.length; i++) {
     capacity.children[i].disabled = false;
   }
@@ -262,13 +263,9 @@ var getCapacityOptions = function () {
 
   capacity.setCustomValidity('Проверьте, пожалуйста, количество мест для гостей!');
 
-  adForm.addEventListener('submit', getSubmitRemoveDefault);
+  adForm.addEventListener('submit', adFormSubmitHandler);
 
-
-  adForm.removeEventListener('submit', getSubmitRemoveDefault);
-
-
-  //setTimeout(cleaningValidityMessage, 3000);
+  setTimeout(cleaningValidityMessage, 5000);
 };
 
-roomNumber.addEventListener('change', getCapacityOptions);
+roomNumber.addEventListener('change', capacityChangeHandler);
