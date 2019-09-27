@@ -210,6 +210,9 @@ mapPinMain.addEventListener ('keydown', function (evt) {
   }
 });
 
+var cleaningValidityMessage = function () {
+  capacity.setCustomValidity('');
+};
 
 capacity.value = '1';
 capacity.children[0].disabled = true;
@@ -246,8 +249,8 @@ var getCapacityOptions = function () {
     capacity.children[1].disabled = true;
     capacity.children[2].disabled = true;
   }
-    capacity.setCustomValidity('Проверьте, пожалуйста, количество гостей!');
-    alert('Проверьте, пожалуйста, количество гостей!');
+    capacity.setCustomValidity('Проверьте, пожалуйста, количество мест для гостей!');
+    setTimeout(cleaningValidityMessage, 3000);
 };
 
 roomNumber.addEventListener('change', getCapacityOptions);
