@@ -224,15 +224,12 @@ mapPinMain.addEventListener('keydown', function (evt) {
   }
 });
 
-var getCapacityState = function (value, first, second, third) {
+var getCapacityValue = function (value) {
   capacity.value = value + '';
-  capacity.children[first].disabled = true;
-  if (second) {
-    capacity.children[second].disabled = true;
-  }
-  if (third) {
-    capacity.children[third].disabled = true;
-  }
+};
+
+var getCapasityOptionDisabled = function (numberChild) {
+  capacity.children[numberChild].disabled = true;
 };
 
 var cleaningValidityMessage = function () {
@@ -244,21 +241,41 @@ var capacityInvalidHandler = function () {
   setTimeout(cleaningValidityMessage, 2000);
 };
 
-getCapacityState(capacityChildren.CHILD_2, capacityChildren.CHILD_1, capacityChildren.CHILD_2, capacityChildren.CHILD_4);
+var getFirstStateCapacity = function () {
+  getCapacityValue(capacityChildren.CHILD_2);
+  getCapasityOptionDisabled(capacityChildren.CHILD_1);
+  getCapasityOptionDisabled(capacityChildren.CHILD_2);
+  getCapasityOptionDisabled(capacityChildren.CHILD_4);
+};
 
-var capacityChangeHandler = function () {
+getFirstStateCapacity();
+
+var capacityChangeHandler = function (evt) {
   for (var i = 0; i < capacity.children.length; i++) {
     capacity.children[i].disabled = false;
   }
 
-  if (roomNumber.value === quantityRooms.OPTION_1) {
-    getCapacityState(capacityChildren.CHILD_2, capacityChildren.CHILD_1, capacityChildren.CHILD_2, capacityChildren.CHILD_4);
-  } else if (roomNumber.value === quantityRooms.OPTION_2) {
-    getCapacityState(capacityChildren.CHILD_3, capacityChildren.CHILD_1, capacityChildren.CHILD_4);
-  } else if (roomNumber.value === quantityRooms.OPTION_3) {
-    getCapacityState(capacityChildren.CHILD_4, capacityChildren.CHILD_4);
-  } else if (roomNumber.value === quantityRooms.OPTION_4) {
-    getCapacityState(capacityChildren.CHILD_1, capacityChildren.CHILD_1, capacityChildren.CHILD_2, capacityChildren.CHILD_3);
+  switch (evt.target.value) {
+    case quantityRooms.OPTION_1:
+      getCapacityValue(capacityChildren.CHILD_2);
+      getCapasityOptionDisabled(capacityChildren.CHILD_1);
+      getCapasityOptionDisabled(capacityChildren.CHILD_2);
+      getCapasityOptionDisabled(capacityChildren.CHILD_4);
+      break;
+    case quantityRooms.OPTION_2:
+      getCapacityValue(capacityChildren.CHILD_3);
+      getCapasityOptionDisabled(capacityChildren.CHILD_1);
+      getCapasityOptionDisabled(capacityChildren.CHILD_4);
+      break;
+    case quantityRooms.OPTION_3:
+      getCapacityValue(capacityChildren.CHILD_4);
+      getCapasityOptionDisabled(capacityChildren.CHILD_4);
+      break;
+    case quantityRooms.OPTION_4:
+      getCapacityValue(capacityChildren.CHILD_1);
+      getCapasityOptionDisabled(capacityChildren.CHILD_1);
+      getCapasityOptionDisabled(capacityChildren.CHILD_2);
+      getCapasityOptionDisabled(capacityChildren.CHILD_3);
   }
 
   capacity.setCustomValidity('Проверьте, пожалуйста, количество мест для гостей!');
