@@ -56,7 +56,11 @@ var capacityChildren = {
   CHILD_4: 3
 };
 
-var ENTER_KEYCODE = 13;
+var keyCodeName = {
+  ESC_KEYCODE: 27,
+  ENTER_KEYCODE: 13
+};
+
 var map = document.querySelector('.map');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 var fragment = document.createDocumentFragment();
@@ -71,11 +75,21 @@ var inputAddress = adForm.querySelector('#address');
 var roomNumber = adForm.querySelector('#room_number');
 var capacity = adForm.querySelector('#capacity');
 
-var translateType = {
-  palace: 'Дворец',
-  flat: 'Квартира',
-  house: 'Дом',
-  bungalo: 'Бунгало'
+var typeHousing = {
+
+  translateType: {
+    palace: 'Дворец',
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalo: 'Бунгало'
+  },
+
+  minPrice: {
+    palace: 10000,
+    flat: 1000,
+    house: 5000,
+    bungalo: 0
+  }
 };
 
 var getRandomNumber = function (maxValue, minValue) {
@@ -173,7 +187,7 @@ var createCardElement = function (cardInner, currentIndex) {
   card.querySelector('.popup__title').textContent = cardInner[currentIndex].offer.title;
   card.querySelector('.popup__text--address').textContent = cardInner[currentIndex].offer.address;
   card.querySelector('.popup__text--price').textContent = cardInner[currentIndex].offer.price + '₽/ночь';
-  card.querySelector('.popup__type').textContent = translateType[cardInner[currentIndex].offer.type];
+  card.querySelector('.popup__type').textContent = typeHousing.translateType[cardInner[currentIndex].offer.type];
   card.querySelector('.popup__text--capacity').textContent = cardInner[currentIndex].offer.rooms + ' комнаты для ' + cardInner[0].offer.guests + ' гостей';
   card.querySelector('.popup__text--time').textContent = 'заезд после ' + cardInner[currentIndex].offer.checkin + ', выезд до ' + cardInner[0].offer.checkout;
   featuresAssembly(card.querySelector('.popup__features'), cardInner[currentIndex].offer.features);
@@ -192,6 +206,21 @@ var startCreateCard = function () {
         mapPopup.remove();
       }
       map.insertBefore(createCardElement(advertsMokiData, indexNumber), mapFiltersContainer);
+      var newMapPopup = map.querySelector('.popup');
+      var buttonClosePopup = newMapPopup.querySelector('.popup__close');
+      buttonClosePopup.addEventListener('click', function () {
+        newMapPopup.remove();
+      });
+
+      var popupEscHandler = function (evt) {
+        evt.preventDefault();
+        if (evt.keyCode === keyCodeName.ESC_KEYCODE) {
+          newMapPopup.remove();
+          document.removeEventListener('keydown', popupEscHandler);
+        }
+      };
+
+      document.addEventListener('keydown', popupEscHandler);
     };
 
     pinButton.addEventListener('click', pinButtonClickHandler);
@@ -236,7 +265,7 @@ mapPinMain.addEventListener('mousedown', function () {
 });
 
 mapPinMain.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
+  if (evt.keyCode === keyCodeName.ENTER_KEYCODE) {
     getActiveState();
   }
 });
@@ -300,3 +329,27 @@ var capacityChangeHandler = function (evt) {
 };
 
 roomNumber.addEventListener('change', capacityChangeHandler);
+
+var inputTypeHousing = adForm.querySelector('#type');
+var inputPriceHousing = adForm.querySelector('#price');
+
+inputPriceHousing.min = typeHousing.minPrice[inputTypeHousing.value];
+inputPriceHousing.placeholder = typeHousing.minPrice[inputTypeHousing.value];
+
+var inputTypeHousingChangeHandler = function () {
+  inputPriceHousing.min = typeHousing.minPrice[inputTypeHousing.value];
+  inputPriceHousing.placeholder = typeHousing.minPrice[inputTypeHousing.value];
+};
+
+inputTypeHousing.addEventListener('change', inputTypeHousingChangeHandler);
+
+var selectTimeIn = adForm.querySelector('#timein');
+var selectTimeOut = adForm.querySelector('#timeout');
+
+selectTimeIn.addEventListener('change', function () {
+  selectTimeOut.value = selectTimeIn.value;
+});
+
+selectTimeOut.addEventListener('change', function () {
+  selectTimeIn.value = selectTimeOut.value;
+});
