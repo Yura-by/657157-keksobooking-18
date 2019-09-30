@@ -1,6 +1,6 @@
 'use strict';
 
-var mokiData = {
+/*var mokiData = {
   QUANTITY: 8,
   TYPES: ['palace', 'flat', 'house', 'bungalo'],
   TIMES: ['12:00', '13:00', '14:00'],
@@ -28,9 +28,9 @@ var mokiData = {
       MIN: 130
     }
   }
-};
+};  data.js*/
 
-var pinMain = {
+/*var pinMain = {
   size: {
     WIDTH: 65,
     HEIGHT: 87,
@@ -40,9 +40,9 @@ var pinMain = {
     X: 300,
     Y: 200
   }
-};
+}; map.js*/
 
-var quantityRooms = {
+/*var quantityRooms = {
   OPTION_1: '1',
   OPTION_2: '2',
   OPTION_3: '3',
@@ -54,28 +54,28 @@ var capacityChildren = {
   CHILD_2: 1,
   CHILD_3: 2,
   CHILD_4: 3
-};
+}; form.js*/
 
-var keyCodeName = {
+/*var keyCodeName = {
   ESC_KEYCODE: 27,
   ENTER_KEYCODE: 13
-};
+}; map.js*/
 
-var map = document.querySelector('.map');
-var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
-var fragment = document.createDocumentFragment();
-var pinList = map.querySelector('.map__pins');
-var templateCard = document.querySelector('#card').content.querySelector('.popup');
-var mapFiltersContainer = map.querySelector('.map__filters-container');
-var adForm = document.querySelector('.ad-form');
-var elementsAdForm = adForm.children;
-var elementsMapFiltersForm = map.querySelector('.map__filters').children;
-var mapPinMain = map.querySelector('.map__pin--main');
-var inputAddress = adForm.querySelector('#address');
-var roomNumber = adForm.querySelector('#room_number');
-var capacity = adForm.querySelector('#capacity');
+//var map = document.querySelector('.map'); map.js
+//var templatePin = document.querySelector('#pin').content.querySelector('.map__pin'); map.js
+//var fragment = document.createDocumentFragment(); map.js
+//var pinList = map.querySelector('.map__pins'); map.js
+//var templateCard = document.querySelector('#card').content.querySelector('.popup'); map.js
+//var mapFiltersContainer = map.querySelector('.map__filters-container'); map.js
+//var adForm = document.querySelector('.ad-form'); map.js
+//var elementsAdForm = adForm.children; map.js
+//var elementsMapFiltersForm = map.querySelector('.map__filters').children; map.js
+//var mapPinMain = map.querySelector('.map__pin--main'); map.js
+//var inputAddress = adForm.querySelector('#address'); map.js
+/*var roomNumber = adForm.querySelector('#room_number');
+var capacity = adForm.querySelector('#capacity'); form.js*/
 
-var typeHousing = {
+/*var typeHousing = {
 
   translateType: {
     palace: 'Дворец',
@@ -90,9 +90,9 @@ var typeHousing = {
     house: 5000,
     bungalo: 0
   }
-};
+}; map.js */
 
-var getRandomNumber = function (maxValue, minValue) {
+/*var getRandomNumber = function (maxValue, minValue) {
   var result = Math.floor(Math.random() * (maxValue + 1));
   if (minValue) {
     while (result <= minValue) {
@@ -144,9 +144,9 @@ var getMokiData = function (advertsData) {
   return adverts;
 };
 
-var advertsMokiData = getMokiData(mokiData);
+var advertsMokiData = getMokiData(mokiData); data.js*/
 
-var createFragmentPins = function (pinsInner) {
+/*var createFragmentPins = function (pinsInner) {
   for (var j = 0; j < pinsInner.length; j++) {
     var pin = templatePin.cloneNode(true);
     pin.style.left = pinsInner[j].location.x + 'px';
@@ -268,9 +268,9 @@ mapPinMain.addEventListener('keydown', function (evt) {
   if (evt.keyCode === keyCodeName.ENTER_KEYCODE) {
     getActiveState();
   }
-});
+}); map.js*/
 
-var getCapacityValue = function (value) {
+/*var getCapacityValue = function (value) {
   capacity.value = value + '';
 };
 
@@ -352,4 +352,4 @@ selectTimeIn.addEventListener('change', function () {
 
 selectTimeOut.addEventListener('change', function () {
   selectTimeIn.value = selectTimeOut.value;
-});
+}); form.js*/
