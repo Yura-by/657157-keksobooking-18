@@ -125,10 +125,8 @@
             document.removeEventListener('keydown', popupEscHandler);
           }
         };
-
         document.addEventListener('keydown', popupEscHandler);
       };
-
       pinButton.addEventListener('click', pinButtonClickHandler);
     };
 

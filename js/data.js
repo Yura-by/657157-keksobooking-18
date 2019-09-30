@@ -86,6 +86,6 @@
 
   window.data = {
     advertsMokiData: getMokiData(mokiData)
-  }
+  };
 
 })();
