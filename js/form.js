@@ -19,9 +19,9 @@
   var roomNumber = window.map.adForm.querySelector('#room_number');
   var capacity = window.map.adForm.querySelector('#capacity');
   var inputTypeHousing = window.map.adForm.querySelector('#type');
-  var inputPriceHousing = window.map.adForm.querySelector('#price');
   var selectTimeIn = window.map.adForm.querySelector('#timein');
   var selectTimeOut = window.map.adForm.querySelector('#timeout');
+  var inputPriceHousing = window.map.adForm.querySelector('#price');
 
   var getCapacityValue = function (value) {
     capacity.value = value + '';

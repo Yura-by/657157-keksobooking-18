@@ -46,10 +46,18 @@
   var adForm = document.querySelector('.ad-form');
   var elementsAdForm = adForm.children;
   var inputAddress = adForm.querySelector('#address');
+
+  var setAddress = function (isDefault) {
+    var pointerHeight = isDefault ? pinMain.size.DEFAULT_HEIGHT / 2 : pinMain.size.HEIGHT;
+    inputAddress.value = Math.round(pinMain.position.X + mapPinMain.offsetLeft + pinMain.size.WIDTH / 2) + ', ' + Math.round(pinMain.position.Y + mapPinMain.offsetTop + pointerHeight);
+  };
+
   window.map = {
     adForm: adForm,
     elementsAdForm: elementsAdForm,
-    typeHousing: typeHousing
+    typeHousing: typeHousing,
+    mapPinMain: mapPinMain,
+    setAddress: setAddress
   };
 
   var createFragmentPins = function (pinsInner) {
@@ -141,11 +149,6 @@
     }
   };
 
-  var setAddress = function (isDefault) {
-    var pointerHeight = isDefault ? pinMain.size.DEFAULT_HEIGHT / 2 : pinMain.size.HEIGHT;
-    inputAddress.value = Math.round(pinMain.position.X + mapPinMain.offsetLeft + pinMain.size.WIDTH / 2) + ', ' + Math.round(pinMain.position.Y + mapPinMain.offsetTop + pointerHeight);
-  };
-
   var getInactiveState = function () {
     toggleDisabledAttribute(elementsAdForm, true);
     toggleDisabledAttribute(elementsMapFiltersForm, true);
@@ -164,9 +167,12 @@
     startCreateCard();
   };
 
-  mapPinMain.addEventListener('mousedown', function () {
+  var mapPinMainMoseDownHandler = function () {
     getActiveState();
-  });
+    mapPinMain.removeEventListener('mousedown', mapPinMainMoseDownHandler);
+  };
+
+  mapPinMain.addEventListener('mousedown', mapPinMainMoseDownHandler);
 
   mapPinMain.addEventListener('keydown', function (evt) {
     if (evt.keyCode === keyCodeName.ENTER_KEYCODE) {
