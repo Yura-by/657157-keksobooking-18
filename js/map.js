@@ -35,6 +35,7 @@
     }
   };
 
+  var INDEX_PIN_FIRST = 2;
   var map = document.querySelector('.map');
   var mapPinMain = map.querySelector('.map__pin--main');
   var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -138,7 +139,7 @@
       pinButton.addEventListener('click', pinButtonClickHandler);
     };
 
-    for (var i = 2; i < pinList.children.length; i++) {
+    for (var i = INDEX_PIN_FIRST; i < pinList.children.length; i++) {
       addPinButtonClickHandler(pinList.children[i], (i - 2));
     }
   };
