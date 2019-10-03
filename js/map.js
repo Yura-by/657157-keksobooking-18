@@ -35,6 +35,7 @@
     }
   };
 
+  var INDEX_PIN_FIRST = 2;
   var map = document.querySelector('.map');
   var mapPinMain = map.querySelector('.map__pin--main');
   var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -46,10 +47,18 @@
   var adForm = document.querySelector('.ad-form');
   var elementsAdForm = adForm.children;
   var inputAddress = adForm.querySelector('#address');
+
+  var setAddress = function (isDefault) {
+    var pointerHeight = isDefault ? pinMain.size.DEFAULT_HEIGHT / 2 : pinMain.size.HEIGHT;
+    inputAddress.value = Math.round(pinMain.position.X + mapPinMain.offsetLeft + pinMain.size.WIDTH / 2) + ', ' + Math.round(pinMain.position.Y + mapPinMain.offsetTop + pointerHeight);
+  };
+
   window.map = {
     adForm: adForm,
     elementsAdForm: elementsAdForm,
-    typeHousing: typeHousing
+    typeHousing: typeHousing,
+    mapPinMain: mapPinMain,
+    setAddress: setAddress
   };
 
   var createFragmentPins = function (pinsInner) {
@@ -130,7 +139,7 @@
       pinButton.addEventListener('click', pinButtonClickHandler);
     };
 
-    for (var i = 2; i < pinList.children.length; i++) {
+    for (var i = INDEX_PIN_FIRST; i < pinList.children.length; i++) {
       addPinButtonClickHandler(pinList.children[i], (i - 2));
     }
   };
@@ -139,11 +148,6 @@
     for (var i = 0; i < collectionElements.length; i++) {
       collectionElements[i].disabled = isDisabled;
     }
-  };
-
-  var setAddress = function (isDefault) {
-    var pointerHeight = isDefault ? pinMain.size.DEFAULT_HEIGHT / 2 : pinMain.size.HEIGHT;
-    inputAddress.value = Math.round(pinMain.position.X + mapPinMain.offsetLeft + pinMain.size.WIDTH / 2) + ', ' + Math.round(pinMain.position.Y + mapPinMain.offsetTop + pointerHeight);
   };
 
   var getInactiveState = function () {
@@ -164,9 +168,12 @@
     startCreateCard();
   };
 
-  mapPinMain.addEventListener('mousedown', function () {
+  var mapPinMainMoseDownHandler = function () {
     getActiveState();
-  });
+    mapPinMain.removeEventListener('mousedown', mapPinMainMoseDownHandler);
+  };
+
+  mapPinMain.addEventListener('mousedown', mapPinMainMoseDownHandler);
 
   mapPinMain.addEventListener('keydown', function (evt) {
     if (evt.keyCode === keyCodeName.ENTER_KEYCODE) {

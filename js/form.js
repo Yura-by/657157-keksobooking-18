@@ -19,16 +19,18 @@
   var roomNumber = window.map.adForm.querySelector('#room_number');
   var capacity = window.map.adForm.querySelector('#capacity');
   var inputTypeHousing = window.map.adForm.querySelector('#type');
-  var inputPriceHousing = window.map.adForm.querySelector('#price');
   var selectTimeIn = window.map.adForm.querySelector('#timein');
   var selectTimeOut = window.map.adForm.querySelector('#timeout');
+  var inputPriceHousing = window.map.adForm.querySelector('#price');
 
-  var getCapacityValue = function (value) {
+  var setCapacityValue = function (value) {
     capacity.value = value + '';
   };
 
-  var getCapasityOptionDisabled = function (numberChild) {
-    capacity.children[numberChild].disabled = true;
+  var setCapasityOptionDisabled = function (numbers) {
+    for (var i = 0; i < numbers.length; i++) {
+      capacity.children[numbers[i]].disabled = true;
+    }
   };
 
   var cleaningValidityMessage = function () {
@@ -40,43 +42,38 @@
     setTimeout(cleaningValidityMessage, 2000);
   };
 
-  var getFirstStateCapacity = function () {
-    getCapacityValue(capacityChildren.CHILD_2);
-    getCapasityOptionDisabled(capacityChildren.CHILD_1);
-    getCapasityOptionDisabled(capacityChildren.CHILD_2);
-    getCapasityOptionDisabled(capacityChildren.CHILD_4);
+  var setFirstStateCapacity = function () {
+    setCapacityValue(capacityChildren.CHILD_2);
+    setCapasityOptionDisabled([capacityChildren.CHILD_2, capacityChildren.CHILD_1, capacityChildren.CHILD_2, capacityChildren.CHILD_4]);
   };
 
-  getFirstStateCapacity();
+  setFirstStateCapacity();
+
+  var setCapacityState = function (evt) {
+    switch (evt.target.value) {
+      case quantityRooms.OPTION_1:
+        setCapacityValue(capacityChildren.CHILD_2);
+        setCapasityOptionDisabled([capacityChildren.CHILD_2, capacityChildren.CHILD_1, capacityChildren.CHILD_2, capacityChildren.CHILD_4]);
+        break;
+      case quantityRooms.OPTION_2:
+        setCapacityValue(capacityChildren.CHILD_3);
+        setCapasityOptionDisabled([capacityChildren.CHILD_1, capacityChildren.CHILD_4]);
+        break;
+      case quantityRooms.OPTION_3:
+        setCapacityValue(capacityChildren.CHILD_4);
+        setCapasityOptionDisabled([capacityChildren.CHILD_4]);
+        break;
+      case quantityRooms.OPTION_4:
+        setCapacityValue(capacityChildren.CHILD_1);
+        setCapasityOptionDisabled([capacityChildren.CHILD_1, capacityChildren.CHILD_2, capacityChildren.CHILD_3]);
+    }
+  };
 
   var capacityChangeHandler = function (evt) {
     for (var i = 0; i < capacity.children.length; i++) {
       capacity.children[i].disabled = false;
     }
-
-    switch (evt.target.value) {
-      case quantityRooms.OPTION_1:
-        getCapacityValue(capacityChildren.CHILD_2);
-        getCapasityOptionDisabled(capacityChildren.CHILD_1);
-        getCapasityOptionDisabled(capacityChildren.CHILD_2);
-        getCapasityOptionDisabled(capacityChildren.CHILD_4);
-        break;
-      case quantityRooms.OPTION_2:
-        getCapacityValue(capacityChildren.CHILD_3);
-        getCapasityOptionDisabled(capacityChildren.CHILD_1);
-        getCapasityOptionDisabled(capacityChildren.CHILD_4);
-        break;
-      case quantityRooms.OPTION_3:
-        getCapacityValue(capacityChildren.CHILD_4);
-        getCapasityOptionDisabled(capacityChildren.CHILD_4);
-        break;
-      case quantityRooms.OPTION_4:
-        getCapacityValue(capacityChildren.CHILD_1);
-        getCapasityOptionDisabled(capacityChildren.CHILD_1);
-        getCapasityOptionDisabled(capacityChildren.CHILD_2);
-        getCapasityOptionDisabled(capacityChildren.CHILD_3);
-    }
-
+    setCapacityState(evt);
     capacity.setCustomValidity('Проверьте, пожалуйста, количество мест для гостей!');
     capacity.addEventListener('invalid', capacityInvalidHandler);
   };

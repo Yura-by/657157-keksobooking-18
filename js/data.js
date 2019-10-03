@@ -32,26 +32,6 @@
     }
   };
 
-  var getRandomNumber = function (maxValue, minValue) {
-    var result = Math.floor(Math.random() * (maxValue + 1));
-    if (minValue) {
-      while (result <= minValue) {
-        result = Math.floor(Math.random() * (maxValue + 1));
-      }
-    }
-    return result;
-  };
-
-  var getRandomLengthArray = function (array) {
-    var resultArray = array.slice();
-    resultArray.length = getRandomNumber(array.length);
-    return resultArray;
-  };
-
-  var getRandomElementFromArray = function (elements) {
-    return elements[getRandomNumber(elements.length - 1)];
-  };
-
   var getMokiData = function (advertsData) {
     var adverts = [];
     for (var i = 0; i < advertsData.QUANTITY; i++) {
@@ -61,21 +41,21 @@
         },
 
         offer: {
-          title: getRandomElementFromArray(advertsData.TYPES),
-          price: getRandomNumber(advertsData.price.MAX, advertsData.price.MIN),
-          type: getRandomElementFromArray(advertsData.TYPES),
-          rooms: getRandomNumber(advertsData.rooms.MAX, advertsData.rooms.MIN),
-          guests: getRandomNumber(advertsData.quests.MAX, advertsData.quests.MIN),
-          checkin: getRandomElementFromArray(advertsData.TIMES),
-          checkout: getRandomElementFromArray(advertsData.TIMES),
-          features: getRandomLengthArray(advertsData.FEATURES),
-          description: getRandomElementFromArray(advertsData.TYPES),
-          photos: getRandomLengthArray(advertsData.PHOTOS)
+          title: window.util.getRandomElementFromArray(advertsData.TYPES),
+          price: window.util.getRandomNumber(advertsData.price.MAX, advertsData.price.MIN),
+          type: window.util.getRandomElementFromArray(advertsData.TYPES),
+          rooms: window.util.getRandomNumber(advertsData.rooms.MAX, advertsData.rooms.MIN),
+          guests: window.util.getRandomNumber(advertsData.quests.MAX, advertsData.quests.MIN),
+          checkin: window.util.getRandomElementFromArray(advertsData.TIMES),
+          checkout: window.util.getRandomElementFromArray(advertsData.TIMES),
+          features: window.util.getRandomLengthArray(advertsData.FEATURES),
+          description: window.util.getRandomElementFromArray(advertsData.TYPES),
+          photos: window.util.getRandomLengthArray(advertsData.PHOTOS)
         },
 
         location: {
-          x: getRandomNumber(advertsData.pinCoordinates.X.MAX, advertsData.pinCoordinates.X.MIN),
-          y: getRandomNumber(advertsData.pinCoordinates.Y.MAX, advertsData.pinCoordinates.Y.MIN)
+          x: window.util.getRandomNumber(advertsData.pinCoordinates.X.MAX, advertsData.pinCoordinates.X.MIN),
+          y: window.util.getRandomNumber(advertsData.pinCoordinates.Y.MAX, advertsData.pinCoordinates.Y.MIN)
         }
       };
       advert.offer.address = advert.location.x + ', ' + advert.location.y;
