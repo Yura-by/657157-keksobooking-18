@@ -47,6 +47,8 @@
   var adForm = document.querySelector('.ad-form');
   var elementsAdForm = adForm.children;
   var inputAddress = adForm.querySelector('#address');
+  var templateErrorPopup = document.querySelector('#error').content.querySelector('.error');
+  var main = document.body.querySelector('main');
 
   var setAddress = function (isDefault) {
     var pointerHeight = isDefault ? pinMain.size.DEFAULT_HEIGHT / 2 : pinMain.size.HEIGHT;
@@ -112,7 +114,7 @@
     return card;
   };
 
-  var startCreateCard = function () {
+  var startCreateCard = function (advertsData) {
     var addPinButtonClickHandler = function (pinButton, indexNumber) {
 
       var pinButtonClickHandler = function () {
@@ -120,7 +122,7 @@
         if (mapPopup) {
           mapPopup.remove();
         }
-        map.insertBefore(createCardElement(window.data.advertsMokiData, indexNumber), mapFiltersContainer);
+        map.insertBefore(createCardElement(advertsData, indexNumber), mapFiltersContainer);
         var newMapPopup = map.querySelector('.popup');
         var buttonClosePopup = newMapPopup.querySelector('.popup__close');
         buttonClosePopup.addEventListener('click', function () {
@@ -158,14 +160,38 @@
 
   getInactiveState();
 
+  var createPins = function (data) {
+    pinList.appendChild(createFragmentPins(data));
+    startCreateCard(data);
+  };
+
+  var createErrorPopup = function (errorMessage) {
+    var errorPopup = templateErrorPopup.cloneNode(true);
+    var message = errorPopup.querySelector('.error__message');
+    message.textContent = errorMessage;
+    var button = errorPopup.querySelector('.error__button');
+
+    var buttonClickHandler = function () {
+      renderPins();
+      errorPopup.remove();
+    };
+
+    button.addEventListener('click', buttonClickHandler);
+    main.insertAdjacentElement('afterbegin', errorPopup);
+    button.focus();
+  };
+
+  var renderPins = function () {
+    window.backend.load(createPins, createErrorPopup);
+  };
+
   var getActiveState = function () {
     toggleDisabledAttribute(elementsAdForm);
     toggleDisabledAttribute(elementsMapFiltersForm);
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     setAddress();
-    pinList.appendChild(createFragmentPins(window.data.advertsMokiData));
-    startCreateCard();
+    renderPins();
   };
 
   var mapPinMainMoseDownHandler = function () {
