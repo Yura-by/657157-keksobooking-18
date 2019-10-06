@@ -47,8 +47,6 @@
   var adForm = document.querySelector('.ad-form');
   var elementsAdForm = adForm.children;
   var inputAddress = adForm.querySelector('#address');
-  var templateErrorPopup = document.querySelector('#error').content.querySelector('.error');
-  var main = document.body.querySelector('main');
 
   var setAddress = function (isDefault) {
     var pointerHeight = isDefault ? pinMain.size.DEFAULT_HEIGHT / 2 : pinMain.size.HEIGHT;
@@ -156,7 +154,11 @@
     toggleDisabledAttribute(elementsAdForm, true);
     toggleDisabledAttribute(elementsMapFiltersForm, true);
     setAddress(true);
+    map.classList.add('map--faded');
+    adForm.classList.add('ad-form--disabled');
   };
+
+  window.map.getInactiveState = getInactiveState;
 
   getInactiveState();
 
@@ -165,25 +167,11 @@
     startCreateCard(data);
   };
 
-  var createErrorPopup = function (errorMessage) {
-    var errorPopup = templateErrorPopup.cloneNode(true);
-    var message = errorPopup.querySelector('.error__message');
-    message.textContent = errorMessage;
-    var button = errorPopup.querySelector('.error__button');
-
-    var buttonClickHandler = function () {
-      renderPins();
-      errorPopup.remove();
-    };
-
-    button.addEventListener('click', buttonClickHandler);
-    main.insertAdjacentElement('afterbegin', errorPopup);
-    button.focus();
-  };
-
   var renderPins = function () {
-    window.backend.load(createPins, createErrorPopup);
+    window.backend.load(createPins, showError);
   };
+
+  var showError = window.util.createPopupError(renderPins);
 
   var getActiveState = function () {
     toggleDisabledAttribute(elementsAdForm);

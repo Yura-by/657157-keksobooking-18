@@ -98,4 +98,12 @@
     selectTimeIn.value = selectTimeOut.value;
   });
 
+  var showError = window.util.createPopupError(console.log);
+
+  window.map.adForm.addEventListener('submit', function (evt) {
+    var form = new FormData(window.map.adForm);
+    window.backend.save(form, window.map.getInactiveState, showError);
+    evt.preventDefault();
+  });
+
 })();
