@@ -102,6 +102,7 @@
     var form = new FormData(window.map.adForm);
     window.backend.save(form, window.map.getInactiveState, window.util.createPopupError);
     evt.preventDefault();
+
   });
 
 })();

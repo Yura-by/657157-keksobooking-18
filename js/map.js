@@ -182,6 +182,7 @@
   };
 
   var getInactiveState = function () {
+    window.util.createPopupSuccess();
     getDefaultState();
     map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
