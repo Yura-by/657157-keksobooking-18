@@ -107,14 +107,18 @@
     return card;
   };
 
+  var removeCard = function () {
+    var mapPopup = map.querySelector('.map__card');
+    if (mapPopup) {
+      mapPopup.remove();
+    }
+  };
+
   var startCreateCard = function (advertsData) {
     var addPinButtonClickHandler = function (pinButton, indexNumber) {
 
       var pinButtonClickHandler = function () {
-        var mapPopup = map.querySelector('.map__card');
-        if (mapPopup) {
-          mapPopup.remove();
-        }
+        removeCard();
         map.insertBefore(createCardElement(advertsData, indexNumber), mapFiltersContainer);
         var newMapPopup = map.querySelector('.popup');
         var buttonClosePopup = newMapPopup.querySelector('.popup__close');
@@ -148,17 +152,48 @@
     }
   };
 
-  var getInactiveState = function () {
+  var mapPinMainMoseDownHandler = function () {
+    window.backend.load(getActiveState, window.util.createPopupError);
+  };
+
+  var mapPinMainKeydownHandler = function (evt) {
+    window.util.enterKeydownHandler(evt, mapPinMainMoseDownHandler);
+  };
+
+  var getDefaultState = function () {
     toggleDisabledAttribute(elementsAdForm, true);
     toggleDisabledAttribute(elementsMapFiltersForm, true);
     setAddress(true);
+    mapPinMain.addEventListener('mousedown', mapPinMainMoseDownHandler);
+    mapPinMain.addEventListener('keydown', mapPinMainKeydownHandler);
+  };
+
+  getDefaultState();
+
+  var removePins = function () {
+    for (var i = pinList.children.length - 1; i >= INDEX_PIN_FIRST; i--) {
+      pinList.children[i].remove();
+    }
+  };
+
+  var installMainPin = function () {
+    mapPinMain.style.left = '570px';
+    mapPinMain.style.top = '375px';
+  };
+
+  var getInactiveState = function () {
+    getDefaultState();
     map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
+    window.map.mapPinMain.removeEventListener('mousedown', window.dragPin.pinMainMouseDownHandler);
+    adForm.reset();
+    removeCard();
+    removePins();
+    installMainPin();
+    setAddress(true);
   };
 
   window.map.getInactiveState = getInactiveState;
-
-  getInactiveState();
 
   var getActiveState = function (data) {
     pinList.appendChild(createFragmentPins(data));
@@ -172,17 +207,5 @@
     mapPinMain.removeEventListener('keydown', mapPinMainKeydownHandler);
     window.map.mapPinMain.addEventListener('mousedown', window.dragPin.pinMainMouseDownHandler);
   };
-
-  var mapPinMainMoseDownHandler = function () {
-    window.backend.load(getActiveState, window.util.createPopupError);
-  };
-
-  mapPinMain.addEventListener('mousedown', mapPinMainMoseDownHandler);
-
-  var mapPinMainKeydownHandler = function (evt) {
-    window.util.enterKeydownHandler(evt, mapPinMainMoseDownHandler);
-  };
-
-  mapPinMain.addEventListener('keydown', mapPinMainKeydownHandler);
 
 })();
