@@ -2,11 +2,6 @@
 
 (function () {
 
-  var keyCodeName = {
-    ESC_KEYCODE: 27,
-    ENTER_KEYCODE: 13
-  };
-
   var pinMain = {
     size: {
       WIDTH: 65,
@@ -127,15 +122,18 @@
           newMapPopup.remove();
         });
 
-        var popupEscHandler = function (evt) {
-          evt.preventDefault();
-          if (evt.keyCode === keyCodeName.ESC_KEYCODE) {
-            newMapPopup.remove();
-            document.removeEventListener('keydown', popupEscHandler);
-          }
+        var removePopup = function () {
+          newMapPopup.remove();
+          document.removeEventListener('keydown', popupEscHandler);
         };
+
+        var popupEscHandler = function (evt) {
+          window.util.escKeydownHandler(evt, removePopup);
+        };
+
         document.addEventListener('keydown', popupEscHandler);
       };
+
       pinButton.addEventListener('click', pinButtonClickHandler);
     };
 
@@ -189,10 +187,11 @@
 
   mapPinMain.addEventListener('mousedown', mapPinMainMoseDownHandler);
 
-  mapPinMain.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === keyCodeName.ENTER_KEYCODE) {
-      getActiveState();
-    }
-  });
+  var mapPinMainKeydownHandler = function (evt) {
+    window.util.enterKeydownHandler(evt, getActiveState);
+    mapPinMain.removeEventListener('keydown', mapPinMainKeydownHandler);
+  };
+
+  mapPinMain.addEventListener('keydown', mapPinMainKeydownHandler);
 
 })();
