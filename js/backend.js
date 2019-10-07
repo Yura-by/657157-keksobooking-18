@@ -36,12 +36,25 @@
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
-    xhr.addEventListener('load', loadHandler);
+    var xhrLoadHandler = function () {
+      if (xhr.status === 200) {
+        loadHandler();
+      } else {
+        errorHandler('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      }
+    };
+
+    xhr.addEventListener('load', xhrLoadHandler);
 
     xhr.addEventListener('error', function () {
       errorHandler('Произошла ошибка соединения');
     });
 
+    xhr.addEventListener('timeout', function () {
+      errorHandler('Запрос не успел выполниться за ' + xhr.timeout + ' мс');
+    });
+
+    xhr.timeout = 10000;
     xhr.open('POST', URL);
     xhr.send(data);
   };

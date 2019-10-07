@@ -37,12 +37,20 @@
       var button = errorPopup.querySelector('.error__button');
       console.log(action);
 
-      var buttonClickHandler = function () {
+      var clickHandler = function () {
         action();
         errorPopup.remove();
       };
 
-      button.addEventListener('click', buttonClickHandler);
+      var escPressHandler = function (evt) {
+        window.util.escKeydownHandler(evt, clickHandler);
+        document.removeEventListener('keydown', escPressHandler);
+      };
+
+      button.addEventListener('click', clickHandler);
+      document.addEventListener('keydown', escPressHandler);
+      errorPopup.addEventListener('click', clickHandler);
+
       main.insertAdjacentElement('afterbegin', errorPopup);
       button.focus();
     };

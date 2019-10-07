@@ -152,8 +152,6 @@
     toggleDisabledAttribute(elementsAdForm, true);
     toggleDisabledAttribute(elementsMapFiltersForm, true);
     setAddress(true);
-    map.classList.add('map--faded');
-    adForm.classList.add('ad-form--disabled');
   };
 
   window.map.getInactiveState = getInactiveState;
