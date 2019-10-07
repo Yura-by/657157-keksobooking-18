@@ -2,11 +2,6 @@
 
 (function () {
 
-  var keyCodeName = {
-    ESC_KEYCODE: 27,
-    ENTER_KEYCODE: 13
-  };
-
   var pinMain = {
     size: {
       WIDTH: 65,
@@ -47,8 +42,6 @@
   var adForm = document.querySelector('.ad-form');
   var elementsAdForm = adForm.children;
   var inputAddress = adForm.querySelector('#address');
-  var templateErrorPopup = document.querySelector('#error').content.querySelector('.error');
-  var main = document.body.querySelector('main');
 
   var setAddress = function (isDefault) {
     var pointerHeight = isDefault ? pinMain.size.DEFAULT_HEIGHT / 2 : pinMain.size.HEIGHT;
@@ -129,15 +122,18 @@
           newMapPopup.remove();
         });
 
-        var popupEscHandler = function (evt) {
-          evt.preventDefault();
-          if (evt.keyCode === keyCodeName.ESC_KEYCODE) {
-            newMapPopup.remove();
-            document.removeEventListener('keydown', popupEscHandler);
-          }
+        var removePopup = function () {
+          newMapPopup.remove();
+          document.removeEventListener('keydown', popupEscHandler);
         };
+
+        var popupEscHandler = function (evt) {
+          window.util.escKeydownHandler(evt, removePopup);
+        };
+
         document.addEventListener('keydown', popupEscHandler);
       };
+
       pinButton.addEventListener('click', pinButtonClickHandler);
     };
 
@@ -156,7 +152,11 @@
     toggleDisabledAttribute(elementsAdForm, true);
     toggleDisabledAttribute(elementsMapFiltersForm, true);
     setAddress(true);
+    map.classList.add('map--faded');
+    adForm.classList.add('ad-form--disabled');
   };
+
+  window.map.getInactiveState = getInactiveState;
 
   getInactiveState();
 
@@ -165,25 +165,11 @@
     startCreateCard(data);
   };
 
-  var createErrorPopup = function (errorMessage) {
-    var errorPopup = templateErrorPopup.cloneNode(true);
-    var message = errorPopup.querySelector('.error__message');
-    message.textContent = errorMessage;
-    var button = errorPopup.querySelector('.error__button');
-
-    var buttonClickHandler = function () {
-      renderPins();
-      errorPopup.remove();
-    };
-
-    button.addEventListener('click', buttonClickHandler);
-    main.insertAdjacentElement('afterbegin', errorPopup);
-    button.focus();
-  };
-
   var renderPins = function () {
-    window.backend.load(createPins, createErrorPopup);
+    window.backend.load(createPins, showError);
   };
+
+  var showError = window.util.createPopupError(renderPins);
 
   var getActiveState = function () {
     toggleDisabledAttribute(elementsAdForm);
@@ -201,10 +187,11 @@
 
   mapPinMain.addEventListener('mousedown', mapPinMainMoseDownHandler);
 
-  mapPinMain.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === keyCodeName.ENTER_KEYCODE) {
-      getActiveState();
-    }
-  });
+  var mapPinMainKeydownHandler = function (evt) {
+    window.util.enterKeydownHandler(evt, getActiveState);
+    mapPinMain.removeEventListener('keydown', mapPinMainKeydownHandler);
+  };
+
+  mapPinMain.addEventListener('keydown', mapPinMainKeydownHandler);
 
 })();
