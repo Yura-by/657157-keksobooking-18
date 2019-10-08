@@ -14,7 +14,7 @@
     }
   };
 
-  var typeHousing = {
+  /*var typeHousing = {
     translateType: {
       palace: 'Дворец',
       flat: 'Квартира',
@@ -28,17 +28,17 @@
       house: 5000,
       bungalo: 0
     }
-  };
+  }; card.js*/
 
-  var INDEX_PIN_FIRST = 2;
-  var map = document.querySelector('.map');
-  var mapPinMain = map.querySelector('.map__pin--main');
+  //var INDEX_PIN_FIRST = 2; card.js
+  //var map = document.querySelector('.map'); card.js
+  var mapPinMain = window.card.map.querySelector('.map__pin--main');
   var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
-  var templateCard = document.querySelector('#card').content.querySelector('.popup');
+  //var templateCard = document.querySelector('#card').content.querySelector('.popup'); card.js
   var fragment = document.createDocumentFragment();
-  var pinList = map.querySelector('.map__pins');
-  var mapFiltersContainer = map.querySelector('.map__filters-container');
-  var elementsMapFiltersForm = map.querySelector('.map__filters').children;
+  //var pinList = window.card.map.querySelector('.map__pins'); card.js
+  //var mapFiltersContainer = map.querySelector('.map__filters-container'); card.js
+  var elementsMapFiltersForm = window.card.map.querySelector('.map__filters').children;
   var adForm = document.querySelector('.ad-form');
   var elementsAdForm = adForm.children;
   var inputAddress = adForm.querySelector('#address');
@@ -51,7 +51,7 @@
   window.map = {
     adForm: adForm,
     elementsAdForm: elementsAdForm,
-    typeHousing: typeHousing,
+    //typeHousing: typeHousing, card.js
     mapPinMain: mapPinMain,
     setAddress: setAddress
   };
@@ -68,7 +68,7 @@
     return fragment;
   };
 
-  var featuresAssembly = function (featuresBox, featuresList) {
+  /*var featuresAssembly = function (featuresBox, featuresList) {
     for (var j = 0; j < featuresList.length; j++) {
       featuresBox.children[j].textContent = featuresList[j];
     }
@@ -144,7 +144,7 @@
     for (var i = INDEX_PIN_FIRST; i < pinList.children.length; i++) {
       addPinButtonClickHandler(pinList.children[i], (i - 2));
     }
-  };
+  };card.js*/
 
   var toggleDisabledAttribute = function (collectionElements, isDisabled) {
     for (var i = 0; i < collectionElements.length; i++) {
@@ -171,8 +171,8 @@
   getDefaultState();
 
   var removePins = function () {
-    for (var i = pinList.children.length - 1; i >= INDEX_PIN_FIRST; i--) {
-      pinList.children[i].remove();
+    for (var i = window.card.pinList.children.length - 1; i >= window.card.INDEX_PIN_FIRST; i--) {
+      window.card.pinList.children[i].remove();
     }
   };
 
@@ -184,11 +184,11 @@
   var getInactiveState = function () {
     window.popups.createPopupSuccess();
     getDefaultState();
-    map.classList.add('map--faded');
+    window.card.map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
     window.map.mapPinMain.removeEventListener('mousedown', window.dragPin.pinMainMouseDownHandler);
     adForm.reset();
-    removeCard();
+    window.card.removeCard();
     removePins();
     installMainPin();
     setAddress(true);
@@ -197,11 +197,11 @@
   window.map.getInactiveState = getInactiveState;
 
   var getActiveState = function (data) {
-    pinList.appendChild(createFragmentPins(data));
-    startCreateCard(data);
+    window.card.pinList.appendChild(createFragmentPins(data));
+    window.card.startCreateCard(data);
     toggleDisabledAttribute(elementsAdForm);
     toggleDisabledAttribute(elementsMapFiltersForm);
-    map.classList.remove('map--faded');
+    window.card.map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     setAddress();
     mapPinMain.removeEventListener('mousedown', mapPinMainMoseDownHandler);
