@@ -79,6 +79,6 @@
 
   window.dragPin = {
     pinMainMouseDownHandler: pinMainMouseDownHandler
-  }
+  };
 
 })();

@@ -19,7 +19,7 @@
     var escPressHandler = function (evt) {
       window.util.escKeydownHandler(evt, function () {
         clickHandler();
-        document.removeEventListener('keydown', escPressHandler)
+        document.removeEventListener('keydown', escPressHandler);
       });
     };
 
