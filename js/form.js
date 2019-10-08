@@ -80,12 +80,12 @@
 
   roomNumber.addEventListener('change', capacityChangeHandler);
 
-  inputPriceHousing.min = window.map.typeHousing.minPrice[inputTypeHousing.value];
-  inputPriceHousing.placeholder = window.map.typeHousing.minPrice[inputTypeHousing.value];
+  inputPriceHousing.min = window.card.typeHousing.minPrice[inputTypeHousing.value];
+  inputPriceHousing.placeholder = window.card.typeHousing.minPrice[inputTypeHousing.value];
 
   var inputTypeHousingChangeHandler = function () {
-    inputPriceHousing.min = window.map.typeHousing.minPrice[inputTypeHousing.value];
-    inputPriceHousing.placeholder = window.map.typeHousing.minPrice[inputTypeHousing.value];
+    inputPriceHousing.min = window.card.typeHousing.minPrice[inputTypeHousing.value];
+    inputPriceHousing.placeholder = window.card.typeHousing.minPrice[inputTypeHousing.value];
   };
 
   inputTypeHousing.addEventListener('change', inputTypeHousingChangeHandler);
@@ -96,6 +96,12 @@
 
   selectTimeOut.addEventListener('change', function () {
     selectTimeIn.value = selectTimeOut.value;
+  });
+
+  window.map.adForm.addEventListener('submit', function (evt) {
+    var form = new FormData(window.map.adForm);
+    window.backend.save(form, window.map.getInactiveState, window.popups.createPopupError);
+    evt.preventDefault();
   });
 
 })();

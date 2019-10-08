@@ -77,6 +77,8 @@
     document.addEventListener('mouseup', mouseUpHandler);
   };
 
-  window.map.mapPinMain.addEventListener('mousedown', pinMainMouseDownHandler);
+  window.dragPin = {
+    pinMainMouseDownHandler: pinMainMouseDownHandler
+  };
 
 })();
