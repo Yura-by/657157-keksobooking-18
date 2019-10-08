@@ -100,7 +100,7 @@
 
   window.map.adForm.addEventListener('submit', function (evt) {
     var form = new FormData(window.map.adForm);
-    window.backend.save(form, window.map.getInactiveState, window.util.createPopupError);
+    window.backend.save(form, window.map.getInactiveState, window.popups.createPopupError);
     evt.preventDefault();
 
   });

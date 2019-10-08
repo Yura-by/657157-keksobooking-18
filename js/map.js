@@ -153,7 +153,7 @@
   };
 
   var mapPinMainMoseDownHandler = function () {
-    window.backend.load(getActiveState, window.util.createPopupError);
+    window.backend.load(getActiveState, window.popups.createPopupError);
   };
 
   var mapPinMainKeydownHandler = function (evt) {
@@ -182,7 +182,7 @@
   };
 
   var getInactiveState = function () {
-    window.util.createPopupSuccess();
+    window.popups.createPopupSuccess();
     getDefaultState();
     map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
