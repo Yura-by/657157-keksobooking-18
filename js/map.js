@@ -2,7 +2,7 @@
 
 (function () {
 
-  var pinMain = {
+  var PinMain = {
     size: {
       WIDTH: 65,
       HEIGHT: 87,
@@ -14,6 +14,9 @@
     }
   };
 
+  var ads = [];
+  var PINS_QUANTITY = 5;
+
   var mapPinMain = window.card.map.querySelector('.map__pin--main');
   var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
   var fragment = document.createDocumentFragment();
@@ -23,12 +26,13 @@
   var inputAddress = adForm.querySelector('#address');
 
   var setAddress = function (isDefault) {
-    var pointerHeight = isDefault ? pinMain.size.DEFAULT_HEIGHT / 2 : pinMain.size.HEIGHT;
-    inputAddress.value = Math.round(pinMain.position.X + mapPinMain.offsetLeft + pinMain.size.WIDTH / 2) + ', ' + Math.round(pinMain.position.Y + mapPinMain.offsetTop + pointerHeight);
+    var pointerHeight = isDefault ? PinMain.size.DEFAULT_HEIGHT / 2 : PinMain.size.HEIGHT;
+    inputAddress.value = Math.round(PinMain.position.X + mapPinMain.offsetLeft + PinMain.size.WIDTH / 2) + ', ' + Math.round(PinMain.position.Y + mapPinMain.offsetTop + pointerHeight);
   };
 
   var createFragmentPins = function (pinsInner) {
-    for (var j = 0; j < pinsInner.length; j++) {
+    var takeNumber = pinsInner.length > PINS_QUANTITY ? PINS_QUANTITY : pinsInner.length;
+    for (var j = 0; j < takeNumber; j++) {
       var pin = templatePin.cloneNode(true);
       pin.style.left = pinsInner[j].location.x + 'px';
       pin.style.top = pinsInner[j].location.y + 'px';
@@ -46,7 +50,7 @@
   };
 
   var mapPinMainMoseDownHandler = function () {
-    window.backend.load(getActiveState, window.popups.createPopupError);
+    window.backend.load(successHandler, window.popups.createPopupError);
   };
 
   var mapPinMainKeydownHandler = function (evt) {
@@ -62,6 +66,22 @@
   var installMainPin = function () {
     mapPinMain.style.left = '570px';
     mapPinMain.style.top = '375px';
+  };
+
+  var successHandler = function (data) {
+    ads = data;
+    window.map.ads = ads;
+    renderPins(ads);
+    getActiveState();
+  };
+
+  var renderPins = function (data) {
+    if (window.card.pinList.children.length > window.card.INDEX_PIN_FIRST) {
+      removePins();
+      window.card.removeCard();
+    }
+    window.card.pinList.appendChild(createFragmentPins(data));
+    window.card.startCreateCard(data);
   };
 
   var getDefaultState = function () {
@@ -85,11 +105,10 @@
     removePins();
     installMainPin();
     setAddress(true);
+    window.filter.formFilter.reset();
   };
 
-  var getActiveState = function (data) {
-    window.card.pinList.appendChild(createFragmentPins(data));
-    window.card.startCreateCard(data);
+  var getActiveState = function () {
     toggleDisabledAttribute(elementsAdForm);
     toggleDisabledAttribute(elementsMapFiltersForm);
     window.card.map.classList.remove('map--faded');
@@ -105,7 +124,8 @@
     elementsAdForm: elementsAdForm,
     mapPinMain: mapPinMain,
     setAddress: setAddress,
-    getInactiveState: getInactiveState
+    getInactiveState: getInactiveState,
+    renderPins: renderPins
   };
 
 })();

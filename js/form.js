@@ -2,14 +2,14 @@
 
 (function () {
 
-  var quantityRooms = {
+  var QuantityRoom = {
     OPTION_1: '1',
     OPTION_2: '2',
     OPTION_3: '3',
     OPTION_4: '100'
   };
 
-  var capacityChildren = {
+  var CapacityChild = {
     CHILD_1: 0,
     CHILD_2: 1,
     CHILD_3: 2,
@@ -43,29 +43,29 @@
   };
 
   var setFirstStateCapacity = function () {
-    setCapacityValue(capacityChildren.CHILD_2);
-    setCapasityOptionDisabled([capacityChildren.CHILD_2, capacityChildren.CHILD_1, capacityChildren.CHILD_2, capacityChildren.CHILD_4]);
+    setCapacityValue(CapacityChild.CHILD_2);
+    setCapasityOptionDisabled([CapacityChild.CHILD_2, CapacityChild.CHILD_1, CapacityChild.CHILD_2, CapacityChild.CHILD_4]);
   };
 
   setFirstStateCapacity();
 
   var setCapacityState = function (evt) {
     switch (evt.target.value) {
-      case quantityRooms.OPTION_1:
-        setCapacityValue(capacityChildren.CHILD_2);
-        setCapasityOptionDisabled([capacityChildren.CHILD_2, capacityChildren.CHILD_1, capacityChildren.CHILD_2, capacityChildren.CHILD_4]);
+      case QuantityRoom.OPTION_1:
+        setCapacityValue(CapacityChild.CHILD_2);
+        setCapasityOptionDisabled([CapacityChild.CHILD_2, CapacityChild.CHILD_1, CapacityChild.CHILD_2, CapacityChild.CHILD_4]);
         break;
-      case quantityRooms.OPTION_2:
-        setCapacityValue(capacityChildren.CHILD_3);
-        setCapasityOptionDisabled([capacityChildren.CHILD_1, capacityChildren.CHILD_4]);
+      case QuantityRoom.OPTION_2:
+        setCapacityValue(CapacityChild.CHILD_3);
+        setCapasityOptionDisabled([CapacityChild.CHILD_1, CapacityChild.CHILD_4]);
         break;
-      case quantityRooms.OPTION_3:
-        setCapacityValue(capacityChildren.CHILD_4);
-        setCapasityOptionDisabled([capacityChildren.CHILD_4]);
+      case QuantityRoom.OPTION_3:
+        setCapacityValue(CapacityChild.CHILD_4);
+        setCapasityOptionDisabled([CapacityChild.CHILD_4]);
         break;
-      case quantityRooms.OPTION_4:
-        setCapacityValue(capacityChildren.CHILD_1);
-        setCapasityOptionDisabled([capacityChildren.CHILD_1, capacityChildren.CHILD_2, capacityChildren.CHILD_3]);
+      case QuantityRoom.OPTION_4:
+        setCapacityValue(CapacityChild.CHILD_1);
+        setCapasityOptionDisabled([CapacityChild.CHILD_1, CapacityChild.CHILD_2, CapacityChild.CHILD_3]);
     }
   };
 
@@ -80,12 +80,12 @@
 
   roomNumber.addEventListener('change', capacityChangeHandler);
 
-  inputPriceHousing.min = window.card.typeHousing.minPrice[inputTypeHousing.value];
-  inputPriceHousing.placeholder = window.card.typeHousing.minPrice[inputTypeHousing.value];
+  inputPriceHousing.min = window.card.typeHousingMap.minPrice[inputTypeHousing.value];
+  inputPriceHousing.placeholder = window.card.typeHousingMap.minPrice[inputTypeHousing.value];
 
   var inputTypeHousingChangeHandler = function () {
-    inputPriceHousing.min = window.card.typeHousing.minPrice[inputTypeHousing.value];
-    inputPriceHousing.placeholder = window.card.typeHousing.minPrice[inputTypeHousing.value];
+    inputPriceHousing.min = window.card.typeHousingMap.minPrice[inputTypeHousing.value];
+    inputPriceHousing.placeholder = window.card.typeHousingMap.minPrice[inputTypeHousing.value];
   };
 
   inputTypeHousing.addEventListener('change', inputTypeHousingChangeHandler);

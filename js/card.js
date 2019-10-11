@@ -2,7 +2,7 @@
 
 (function () {
 
-  var typeHousing = {
+  var typeHousingMap = {
     translateType: {
       palace: 'Дворец',
       flat: 'Квартира',
@@ -53,7 +53,7 @@
     card.querySelector('.popup__title').textContent = cardInner[currentIndex].offer.title;
     card.querySelector('.popup__text--address').textContent = cardInner[currentIndex].offer.address;
     card.querySelector('.popup__text--price').textContent = cardInner[currentIndex].offer.price + '₽/ночь';
-    card.querySelector('.popup__type').textContent = typeHousing.translateType[cardInner[currentIndex].offer.type];
+    card.querySelector('.popup__type').textContent = typeHousingMap.translateType[cardInner[currentIndex].offer.type];
     card.querySelector('.popup__text--capacity').textContent = cardInner[currentIndex].offer.rooms + ' комнаты для ' + cardInner[0].offer.guests + ' гостей';
     card.querySelector('.popup__text--time').textContent = 'заезд после ' + cardInner[currentIndex].offer.checkin + ', выезд до ' + cardInner[0].offer.checkout;
     featuresAssembly(card.querySelector('.popup__features'), cardInner[currentIndex].offer.features);
@@ -104,7 +104,7 @@
 
   window.card = {
     INDEX_PIN_FIRST: INDEX_PIN_FIRST,
-    typeHousing: typeHousing,
+    typeHousingMap: typeHousingMap,
     map: map,
     pinList: pinList,
     startCreateCard: startCreateCard,
