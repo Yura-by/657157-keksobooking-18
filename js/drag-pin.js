@@ -2,7 +2,7 @@
 
 (function () {
 
-  var pinCoordinates = {
+  var PinCoordinate = {
     X: {
       MAX: 1137,
       MIN: 0
@@ -44,20 +44,20 @@
         Y: 0
       };
 
-      if (coordsCalculate.left >= pinCoordinates.X.MIN && coordsCalculate.left <= pinCoordinates.X.MAX) {
+      if (coordsCalculate.left >= PinCoordinate.X.MIN && coordsCalculate.left <= PinCoordinate.X.MAX) {
         resultCoords.X = coordsCalculate.left;
-      } else if (coordsCalculate.left < pinCoordinates.X.MIN) {
-        resultCoords.X = pinCoordinates.X.MIN;
-      } else if (coordsCalculate.left > pinCoordinates.X.MAX) {
-        resultCoords.X = pinCoordinates.X.MAX;
+      } else if (coordsCalculate.left < PinCoordinate.X.MIN) {
+        resultCoords.X = PinCoordinate.X.MIN;
+      } else if (coordsCalculate.left > PinCoordinate.X.MAX) {
+        resultCoords.X = PinCoordinate.X.MAX;
       }
 
-      if (coordsCalculate.top >= pinCoordinates.Y.MIN && coordsCalculate.top <= pinCoordinates.Y.MAX) {
+      if (coordsCalculate.top >= PinCoordinate.Y.MIN && coordsCalculate.top <= PinCoordinate.Y.MAX) {
         resultCoords.Y = coordsCalculate.top;
-      } else if (coordsCalculate.top < pinCoordinates.Y.MIN) {
-        resultCoords.Y = pinCoordinates.Y.MIN;
-      } else if (coordsCalculate.top > pinCoordinates.Y.MAX) {
-        resultCoords.Y = pinCoordinates.Y.MAX;
+      } else if (coordsCalculate.top < PinCoordinate.Y.MIN) {
+        resultCoords.Y = PinCoordinate.Y.MIN;
+      } else if (coordsCalculate.top > PinCoordinate.Y.MAX) {
+        resultCoords.Y = PinCoordinate.Y.MAX;
       }
 
       window.map.mapPinMain.style.left = resultCoords.X + 'px';
