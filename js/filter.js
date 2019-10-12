@@ -99,12 +99,13 @@
   };
 
   var updatePins = function () {
+    var featuresChecked = getArrayFeatures();
     var adsFiltered = window.map.ads.filter(function (ad) {
       return getAskType(ad) &&
       getAskPrice(ad) &&
       getAskRooms(ad) &&
       getAskGuests(ad) &&
-      getAskFeatures(ad, getArrayFeatures());
+      getAskFeatures(ad, featuresChecked);
     });
 
     window.map.renderPins(adsFiltered);
