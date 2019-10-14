@@ -4,8 +4,8 @@
 
   var PinCoordinate = {
     X: {
-      MAX: 1137,
-      MIN: 0
+      MAX: 1169,
+      MIN: -31
     },
     Y: {
       MAX: 630,

@@ -2,6 +2,7 @@
 
 (function () {
 
+  var PINS_QUANTITY = 5;
   var PinMain = {
     size: {
       WIDTH: 65,
@@ -13,10 +14,7 @@
       Y: 200
     }
   };
-
   var ads = [];
-  var PINS_QUANTITY = 5;
-
   var mapPinMain = window.card.map.querySelector('.map__pin--main');
   var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
   var fragment = document.createDocumentFragment();
@@ -80,6 +78,11 @@
       removePins();
       window.card.removeCard();
     }
+    data.forEach(function (it, index) {
+      if (!it.offer) {
+        data.splice(index, 1);
+      }
+    });
     window.card.pinList.appendChild(createFragmentPins(data));
     window.card.startCreateCard(data);
   };
@@ -94,8 +97,10 @@
 
   getDefaultState();
 
-  var getInactiveState = function () {
-    window.popups.createPopupSuccess();
+  var getInactiveState = function (reset) {
+    if (!reset) {
+      window.popups.createPopupSuccess();
+    }
     getDefaultState();
     window.card.map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
