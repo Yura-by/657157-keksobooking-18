@@ -25,11 +25,12 @@
   var pinList = map.querySelector('.map__pins');
 
   var featuresAssembly = function (featuresBox, featuresList) {
-    featuresList.forEach(function (feature) {
-      var className = '.popup__feature--' + feature;
-      var element = featuresBox.querySelector(className);
-      element.textContent = feature;
-    });
+    if (featuresList.length === 0) {
+      featuresBox.remove();
+    }
+    for (var j = 0; j < featuresList.length; j++) {
+      featuresBox.children[j].textContent = featuresList[j];
+    }
     for (var counter = featuresBox.children.length - 1; counter >= 0; counter--) {
       if (!featuresBox.children[counter].textContent) {
         featuresBox.children[counter].remove();
@@ -38,15 +39,14 @@
   };
 
   var createPhotosList = function (photosBox, photosSources) {
-    if (photosSources.length > 0) {
-      photosBox.querySelector('.popup__photo').src = photosSources[0];
-      for (var i = 1; i < photosSources.length; i++) {
-        var imgClone = photosBox.querySelector('.popup__photo').cloneNode(true);
-        imgClone.src = photosSources[i];
-        photosBox.appendChild(imgClone);
-      }
-    } else {
-      photosBox.children[0].remove();
+    if (photosSources.length === 0) {
+      photosBox.remove();
+    }
+    photosBox.querySelector('.popup__photo').src = photosSources[0];
+    for (var i = 1; i < photosSources.length; i++) {
+      var imgClone = photosBox.querySelector('.popup__photo').cloneNode(true);
+      imgClone.src = photosSources[i];
+      photosBox.appendChild(imgClone);
     }
   };
 
