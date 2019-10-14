@@ -106,6 +106,7 @@
     installMainPin();
     setAddress(true);
     window.filter.formFilter.reset();
+    window.photo.resetImages();
   };
 
   var getActiveState = function () {

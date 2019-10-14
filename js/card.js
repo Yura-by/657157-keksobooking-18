@@ -25,11 +25,9 @@
   var pinList = map.querySelector('.map__pins');
 
   var featuresAssembly = function (featuresBox, featuresList) {
-    featuresList.forEach(function (feature) {
-      var className = '.popup__feature--' + feature;
-      var element = featuresBox.querySelector(className);
-      element.textContent = feature;
-    });
+    for (var j = 0; j < featuresList.length; j++) {
+      featuresBox.children[j].textContent = featuresList[j];
+    }
     for (var counter = featuresBox.children.length - 1; counter >= 0; counter--) {
       if (!featuresBox.children[counter].textContent) {
         featuresBox.children[counter].remove();
