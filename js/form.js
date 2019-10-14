@@ -22,6 +22,7 @@
   var selectTimeIn = window.map.adForm.querySelector('#timein');
   var selectTimeOut = window.map.adForm.querySelector('#timeout');
   var inputPriceHousing = window.map.adForm.querySelector('#price');
+  var buttonReset = window.map.adForm.querySelector('.ad-form__reset');
 
   var setCapacityValue = function (value) {
     capacity.value = value + '';
@@ -102,6 +103,11 @@
     var form = new FormData(window.map.adForm);
     window.backend.save(form, window.map.getInactiveState, window.popups.createPopupError);
     evt.preventDefault();
+  });
+
+  buttonReset.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    window.map.getInactiveState(true);
   });
 
 })();

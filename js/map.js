@@ -2,6 +2,7 @@
 
 (function () {
 
+  var PINS_QUANTITY = 5;
   var PinMain = {
     size: {
       WIDTH: 65,
@@ -13,10 +14,7 @@
       Y: 200
     }
   };
-
   var ads = [];
-  var PINS_QUANTITY = 5;
-
   var mapPinMain = window.card.map.querySelector('.map__pin--main');
   var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
   var fragment = document.createDocumentFragment();
@@ -34,10 +32,18 @@
     var takeNumber = pinsInner.length > PINS_QUANTITY ? PINS_QUANTITY : pinsInner.length;
     for (var j = 0; j < takeNumber; j++) {
       var pin = templatePin.cloneNode(true);
-      pin.style.left = pinsInner[j].location.x + 'px';
-      pin.style.top = pinsInner[j].location.y + 'px';
-      pin.querySelector('img').src = pinsInner[j].author.avatar;
-      pin.querySelector('img').alt = pinsInner[j].offer.title;
+      if (pinsInner[j].location.x) {
+        pin.style.left = pinsInner[j].location.x + 'px';
+      }
+      if (pinsInner[j].location.y) {
+        pin.style.top = pinsInner[j].location.y + 'px';
+      }
+      if (pinsInner[j].author.avatar) {
+        pin.querySelector('img').src = pinsInner[j].author.avatar;
+      }
+      if (pinsInner[j].offer.title) {
+        pin.querySelector('img').alt = pinsInner[j].offer.title;
+      }
       fragment.appendChild(pin);
     }
     return fragment;
@@ -69,6 +75,11 @@
   };
 
   var successHandler = function (data) {
+    for (var i = data.length - 1; i >= 0; i--) {
+      if (!data[i].offer) {
+        data.splice(i, 1);
+      }
+    }
     ads = data;
     window.map.ads = ads;
     renderPins(ads);
@@ -94,8 +105,10 @@
 
   getDefaultState();
 
-  var getInactiveState = function () {
-    window.popups.createPopupSuccess();
+  var getInactiveState = function (reset) {
+    if (!reset) {
+      window.popups.createPopupSuccess();
+    }
     getDefaultState();
     window.card.map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
@@ -106,6 +119,7 @@
     installMainPin();
     setAddress(true);
     window.filter.formFilter.reset();
+    window.photo.resetImages();
   };
 
   var getActiveState = function () {

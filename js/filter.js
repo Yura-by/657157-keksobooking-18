@@ -2,11 +2,19 @@
 
 (function () {
 
-  var Price = {
-    LOW: 10000,
-    MIDDLE: 50000
-  };
+
   var ANY = 'any';
+  var Price = {
+    number: {
+      LOW: 10000,
+      HIGH: 50000
+    },
+    value: {
+      LOW: 'low',
+      MIDDLE: 'middle',
+      HIGH: 'high'
+    }
+  };
   var formFilter = document.querySelector('.map__filters');
   var type = formFilter.querySelector('#housing-type');
   var price = formFilter.querySelector('#housing-price');
@@ -25,77 +33,46 @@
   var getAskFeatures = function (challenger, featuresList) {
     if (featuresList.length === 0) {
       return true;
-    } else {
-      var counter = 0;
-      featuresList.forEach(function (feature) {
-        challenger.offer.features.forEach(function (it) {
-          if (feature === it) {
-            counter++;
-          }
-        });
-      });
-      if (counter === featuresList.length) {
-        return true;
-      }
-      return false;
     }
+    var counter = 0;
+    featuresList.forEach(function (feature) {
+      challenger.offer.features.forEach(function (it) {
+        if (feature === it) {
+          counter++;
+        }
+      });
+    });
+    if (counter === featuresList.length) {
+      return true;
+    }
+    return false;
   };
 
   var getAskPrice = function (element) {
     var priceAd = element.offer.price;
-
     switch (true) {
-      case (price.value === 'low'):
-        return priceAd < Price.LOW;
       case (price.value === ANY):
         return true;
-      case (price.value === 'middle'):
-        return priceAd >= Price.LOW && priceAd < Price.MIDDLE;
-      case (price.value === 'high'):
-        return priceAd >= Price.MIDDLE;
-      default :
-        return false;
+      case (price.value === Price.value.LOW):
+        return priceAd < Price.number.LOW;
+      case (price.value === Price.value.MIDDLE):
+        return priceAd >= Price.number.LOW && priceAd < Price.number.HIGH;
+      case (price.value === Price.value.HIGH):
+        return priceAd >= Price.number.HIGH;
     }
-
+    return false;
   };
 
   var getAskType = function (element) {
-
-    switch (type.value) {
-      case ANY:
-        return true;
-      case element.offer.type:
-        return true;
-      default :
-        return false;
-    }
-
+    return type.value === ANY || type.value === element.offer.type;
   };
 
   var getAskRooms = function (element) {
-
-    switch (rooms.value) {
-      case ANY:
-        return true;
-      case element.offer.rooms + '':
-        return true;
-      default :
-        return false;
-    }
-
+    return rooms.value === ANY || rooms.value === element.offer.rooms + '';
   };
 
   var getAskGuests = function (element) {
-
-    switch (guests.value) {
-      case ANY:
-        return true;
-      case element.offer.guests + '':
-        return true;
-      default :
-        return false;
-    }
-
+    return guests.value === ANY || guests.value === element.offer.guests + '';
   };
 
   var updatePins = function () {
