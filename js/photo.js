@@ -3,17 +3,18 @@
 (function () {
 
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-  var fileChooserAvatar = window.map.adForm.querySelector('.ad-form-header__input');
-  var previewAvatar = window.map.adForm.querySelector('.ad-form-header__preview img');
-  var previewAvatarDefaultSrc = previewAvatar.src;
-  var fileChooserImage = window.map.adForm.querySelector('.ad-form__input');
-  var previewImage = window.map.adForm.querySelector('.ad-form__photo');
+  var TAG_NAME = 'img';
   var PropertyPreview = {
     WIDTH: '70px',
     HEIGHT: '70px',
     BACKGROUND_POSITION: '50% 50%',
     BACKGROUND_REPEAT: 'no-repeat'
   };
+  var fileChooserAvatar = window.map.adForm.querySelector('.ad-form-header__input');
+  var previewAvatar = window.map.adForm.querySelector('.ad-form-header__preview img');
+  var previewAvatarDefaultSrc = previewAvatar.src;
+  var fileChooserImage = window.map.adForm.querySelector('.ad-form__input');
+  var previewImage = window.map.adForm.querySelector('.ad-form__photo');
 
   var setImage = function (chooser, element) {
     var file = chooser;
@@ -29,7 +30,7 @@
         var reader = new FileReader();
 
         var readerLoadHandler = function () {
-          if (element.tagName.toLowerCase() === 'img') {
+          if (element.tagName.toLowerCase() === TAG_NAME) {
             element.src = reader.result;
           } else {
             element.style.background = 'url(' + reader.result + ') ' + PropertyPreview.BACKGROUND_REPEAT + ' ' + PropertyPreview.BACKGROUND_POSITION;
@@ -62,6 +63,5 @@
   window.photo = {
     resetImages: resetImages
   };
-
 
 })();
