@@ -119,7 +119,7 @@
     return card;
   };
 
-  var removeCard = function () {
+  var removePopup = function () {
     var mapPopup = map.querySelector('.map__card');
     if (mapPopup) {
       mapPopup.remove();
@@ -130,19 +130,19 @@
     var addHandler = function (pinButton, indexNumber) {
 
       var pinButtonClickHandler = function () {
-        removeCard();
+        removePopup();
         map.insertBefore(createCard(advertsData, indexNumber), mapFiltersContainer);
         var newMapPopup = map.querySelector('.popup');
         var buttonClosePopup = newMapPopup.querySelector('.popup__close');
         buttonClosePopup.addEventListener('click', function () {
-          newMapPopup.remove();
+          removePopupEsc();
         });
-        var removePopup = function () {
+        var removePopupEsc = function () {
           newMapPopup.remove();
           document.removeEventListener('keydown', popupEscHandler);
         };
         var popupEscHandler = function (evt) {
-          window.util.escKeydownHandler(evt, removePopup);
+          window.util.escKeydownHandler(evt, removePopupEsc);
         };
         document.addEventListener('keydown', popupEscHandler);
       };
@@ -161,7 +161,7 @@
     map: map,
     pinList: pinList,
     startCreate: startCreate,
-    removeCard: removeCard
+    removePopup: removePopup
   };
 
 })();

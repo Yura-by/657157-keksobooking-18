@@ -12,20 +12,24 @@
     message.textContent = errorMessage;
     var button = errorPopup.querySelector('.error__button');
 
-    var clickHandler = function () {
+    var removePopup = function () {
       errorPopup.remove();
     };
 
     var escPressHandler = function (evt) {
       window.util.escKeydownHandler(evt, function () {
-        clickHandler();
+        removePopup();
         document.removeEventListener('keydown', escPressHandler);
       });
     };
 
-    button.addEventListener('click', clickHandler);
+    button.addEventListener('click', function () {
+      errorPopup.remove();
+    });
     document.addEventListener('keydown', escPressHandler);
-    errorPopup.addEventListener('click', clickHandler);
+    errorPopup.addEventListener('click', function () {
+      errorPopup.remove();
+    });
 
     main.insertAdjacentElement('afterbegin', errorPopup);
     button.focus();

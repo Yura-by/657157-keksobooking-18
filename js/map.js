@@ -58,12 +58,16 @@
     }
   };
 
-  var pinMainMoseDownHandler = function () {
+  var loadData = function () {
     window.backend.load(successHandler, window.popups.createError);
   };
 
+  var pinMainMoseDownHandler = function () {
+    loadData();
+  };
+
   var pinMainKeydownHandler = function (evt) {
-    window.util.enterKeydownHandler(evt, pinMainMoseDownHandler);
+    window.util.enterKeydownHandler(evt, loadData);
   };
 
   var removePins = function () {
@@ -91,7 +95,7 @@
   var renderPins = function (data) {
     if (window.card.pinList.children.length > window.card.INDEX_PIN_FIRST) {
       removePins();
-      window.card.removeCard();
+      window.card.removePopup();
     }
     window.card.pinList.appendChild(createFragmentPins(data));
     window.card.startCreate(data);
@@ -116,7 +120,7 @@
     adForm.classList.add('ad-form--disabled');
     pinMain.removeEventListener('mousedown', window.dragPin.pinMainMouseDownHandler);
     adForm.reset();
-    window.card.removeCard();
+    window.card.removePopup();
     removePins();
     installMainPin();
     setAddress(true);
