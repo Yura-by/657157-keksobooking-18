@@ -71,7 +71,7 @@
   };
 
   var removePins = function () {
-    for (var i = window.card.pinList.children.length - 1; i >= window.card.INDEX_PIN_FIRST; i--) {
+    for (var i = window.card.pinList.children.length - 1; i >= window.card.Index.PIN_FIRST; i--) {
       window.card.pinList.children[i].remove();
     }
   };
@@ -93,7 +93,7 @@
   };
 
   var renderPins = function (data) {
-    if (window.card.pinList.children.length > window.card.INDEX_PIN_FIRST) {
+    if (window.card.pinList.children.length > window.card.Index.PIN_FIRST) {
       removePins();
       window.card.removePopup();
     }

@@ -2,9 +2,10 @@
 
 (function () {
 
-  var INDEX_IMAGE_CLONE_FIRST = 1;
-  var INDEX_PIN_FIRST = 2;
-
+  var Index = {
+    IMAGE_CLONE_FIRST: 1,
+    PIN_FIRST: 2
+  };
   var typeHousingMap = {
     translate: {
       palace: 'Дворец',
@@ -46,7 +47,7 @@
       return;
     }
     var image = photosBox.querySelector('.popup__photo');
-    for (var i = INDEX_IMAGE_CLONE_FIRST; i < photosSources.length; i++) {
+    for (var i = Index.IMAGE_CLONE_FIRST; i < photosSources.length; i++) {
       var imageClone = image.cloneNode(true);
       imageClone.src = photosSources[i];
       photosBox.appendChild(imageClone);
@@ -123,49 +124,38 @@
     var mapPopup = map.querySelector('.map__card');
     if (mapPopup) {
       mapPopup.remove();
+      document.removeEventListener('keydown', popupEscHandler);
     }
   };
 
   var popupEscHandler = function (evt) {
     window.util.escKeydownHandler(evt, function () {
-      map.children[1].remove();
-      document.removeEventListener('keydown', popupEscHandler);
+      removePopup();
     });
   };
 
   var startCreate = function (advertsData) {
-    var addHandler = function (pinButton, indexNumber) {
 
+    var addHandler = function (pinButton, indexNumber) {
       var pinButtonClickHandler = function () {
         removePopup();
         map.insertBefore(createCard(advertsData, indexNumber), mapFiltersContainer);
-        var newMapPopup = map.querySelector('.popup');
-        var buttonClosePopup = newMapPopup.querySelector('.popup__close');
+        var buttonClosePopup = map.querySelector('.popup__close');
         buttonClosePopup.addEventListener('click', function () {
-          newMapPopup.remove();
-          document.removeEventListener('keydown', popupEscHandler);
+          removePopup();
         });
-
-        /*var removePopupEsc = function () {
-          newMapPopup.remove();
-          document.removeEventListener('keydown', popupEscHandler);
-        };
-        var popupEscHandler = function (evt) {
-          window.util.escKeydownHandler(evt, removePopupEsc);
-        };*/
         document.addEventListener('keydown', popupEscHandler);
       };
-
       pinButton.addEventListener('click', pinButtonClickHandler);
     };
 
-    for (var i = INDEX_PIN_FIRST; i < pinList.children.length; i++) {
-      addHandler(pinList.children[i], (i - INDEX_PIN_FIRST));
+    for (var i = Index.PIN_FIRST; i < pinList.children.length; i++) {
+      addHandler(pinList.children[i], (i - Index.PIN_FIRST));
     }
   };
 
   window.card = {
-    INDEX_PIN_FIRST: INDEX_PIN_FIRST,
+    Index: Index,
     typeHousingMap: typeHousingMap,
     map: map,
     pinList: pinList,

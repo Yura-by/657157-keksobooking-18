@@ -14,21 +14,23 @@
 
     var removePopup = function () {
       errorPopup.remove();
+      document.removeEventListener('keydown', escPressHandler);
     };
 
     var escPressHandler = function (evt) {
       window.util.escKeydownHandler(evt, function () {
         removePopup();
-        document.removeEventListener('keydown', escPressHandler);
       });
     };
 
     button.addEventListener('click', function () {
-      errorPopup.remove();
+      removePopup();
     });
+
     document.addEventListener('keydown', escPressHandler);
+
     errorPopup.addEventListener('click', function () {
-      errorPopup.remove();
+      removePopup();
     });
 
     main.insertAdjacentElement('afterbegin', errorPopup);
@@ -40,12 +42,12 @@
 
     var removePopup = function () {
       successPopup.remove();
+      document.removeEventListener('keydown', escPressHandler);
     };
 
     var escPressHandler = function (evt) {
       window.util.escKeydownHandler(evt, function () {
         removePopup();
-        document.removeEventListener('keydown', escPressHandler);
       });
     };
 

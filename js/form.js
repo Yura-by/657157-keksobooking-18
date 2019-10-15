@@ -16,10 +16,10 @@
   };
   var roomNumber = window.map.adForm.querySelector('#room_number');
   var capacity = window.map.adForm.querySelector('#capacity');
-  var inputTypeHousing = window.map.adForm.querySelector('#type');
+  var typeHousing = window.map.adForm.querySelector('#type');
   var selectTimeIn = window.map.adForm.querySelector('#timein');
   var selectTimeOut = window.map.adForm.querySelector('#timeout');
-  var inputPriceHousing = window.map.adForm.querySelector('#price');
+  var priceHousing = window.map.adForm.querySelector('#price');
   var buttonReset = window.map.adForm.querySelector('.ad-form__reset');
 
   var setCapacityValue = function (value) {
@@ -79,15 +79,15 @@
 
   roomNumber.addEventListener('change', capacityChangeHandler);
 
-  inputPriceHousing.min = window.card.typeHousingMap.minPrice[inputTypeHousing.value];
-  inputPriceHousing.placeholder = window.card.typeHousingMap.minPrice[inputTypeHousing.value];
+  priceHousing.min = window.card.typeHousingMap.minPrice[typeHousing.value];
+  priceHousing.placeholder = window.card.typeHousingMap.minPrice[typeHousing.value];
 
-  var inputTypeHousingChangeHandler = function () {
-    inputPriceHousing.min = window.card.typeHousingMap.minPrice[inputTypeHousing.value];
-    inputPriceHousing.placeholder = window.card.typeHousingMap.minPrice[inputTypeHousing.value];
+  var typeHousingChangeHandler = function () {
+    priceHousing.min = window.card.typeHousingMap.minPrice[typeHousing.value];
+    priceHousing.placeholder = window.card.typeHousingMap.minPrice[typeHousing.value];
   };
 
-  inputTypeHousing.addEventListener('change', inputTypeHousingChangeHandler);
+  typeHousing.addEventListener('change', typeHousingChangeHandler);
 
   selectTimeIn.addEventListener('change', function () {
     selectTimeOut.value = selectTimeIn.value;
