@@ -66,6 +66,7 @@
     var cardDescription = card.querySelector('.popup__description');
     var cardPhotos = card.querySelector('.popup__photos');
     var cardAvatar = card.querySelector('.popup__avatar');
+
     cardInner[currentIndex].offer.title ? cardTitle.textContent = cardInner[currentIndex].offer.title : cardTitle.remove();
     cardInner[currentIndex].offer.address ? cardAdress.textContent = cardInner[currentIndex].offer.address : cardAdress.remove();
     cardInner[currentIndex].offer.price ? cardAdress.textContent = cardInner[currentIndex].offer.price + '₽/ночь' : cardPrice.remove();
