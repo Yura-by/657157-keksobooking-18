@@ -14,7 +14,6 @@
       Y: 200
     }
   };
-  var ads = [];
   var mapPinMain = window.card.map.querySelector('.map__pin--main');
   var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
   var fragment = document.createDocumentFragment();
@@ -80,9 +79,8 @@
         data.splice(i, 1);
       }
     }
-    ads = data;
-    window.map.ads = ads;
-    renderPins(ads);
+    window.map.ads = data;
+    renderPins(data);
     getActiveState();
   };
 
@@ -91,7 +89,9 @@
       removePins();
       window.card.removeCard();
     }
-    window.card.pinList.appendChild(createFragmentPins(data));
+    try {
+      window.card.pinList.appendChild(createFragmentPins(data));
+    } catch {};
     window.card.startCreateCard(data);
   };
 

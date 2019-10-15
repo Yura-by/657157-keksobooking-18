@@ -40,7 +40,7 @@
   };
 
   var capacityInvalidHandler = function () {
-    setTimeout(cleaningValidityMessage, 2000);
+    setTimeout(cleaningValidityMessage, 1000);
   };
 
   var setFirstStateCapacity = function () {
