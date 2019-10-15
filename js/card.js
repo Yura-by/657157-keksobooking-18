@@ -4,7 +4,8 @@
 
   var Index = {
     IMAGE_CLONE_FIRST: 1,
-    PIN_FIRST: 2
+    PIN_FIRST: 2,
+    FIRST_IMAGE: 0
   };
   var typeHousingMap = {
     translate: {
@@ -31,9 +32,11 @@
       featuresBox.remove();
       return;
     }
-    for (var j = 0; j < featuresList.length; j++) {
-      featuresBox.children[j].textContent = featuresList[j];
-    }
+    featuresList.forEach(function (feature) {
+      var className = '.popup__feature--' + feature;
+      var element = featuresBox.querySelector(className);
+      element.textContent = feature;
+    });
     for (var counter = featuresBox.children.length - 1; counter >= 0; counter--) {
       if (!featuresBox.children[counter].textContent) {
         featuresBox.children[counter].remove();
@@ -52,7 +55,7 @@
       imageClone.src = photosSources[i];
       photosBox.appendChild(imageClone);
     }
-    image.src = photosSources[0];
+    image.src = photosSources[Index.FIRST_IMAGE];
   };
 
   var createCard = function (cardInner, currentIndex) {

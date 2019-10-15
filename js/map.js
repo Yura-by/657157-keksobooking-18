@@ -53,9 +53,9 @@
   };
 
   var toggleDisabledAttribute = function (collectionElements, isDisabled) {
-    for (var i = 0; i < collectionElements.length; i++) {
-      collectionElements[i].disabled = isDisabled;
-    }
+    [].forEach.call(collectionElements, function (it) {
+      it.disabled = isDisabled;
+    });
   };
 
   var loadData = function () {

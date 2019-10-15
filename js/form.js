@@ -2,6 +2,7 @@
 
 (function () {
 
+  var TIMEOUT_FOR_CHECK = 1000;
   var QuantityRoom = {
     OPTION_1: '1',
     OPTION_2: '2',
@@ -27,9 +28,9 @@
   };
 
   var setCapasityOptionDisabled = function (numbers) {
-    for (var i = 0; i < numbers.length; i++) {
-      capacity.children[numbers[i]].disabled = true;
-    }
+    numbers.forEach(function (it) {
+      capacity.children[it].disabled = true;
+    });
   };
 
   var cleaningValidityMessage = function () {
@@ -38,7 +39,7 @@
   };
 
   var capacityInvalidHandler = function () {
-    setTimeout(cleaningValidityMessage, 1000);
+    setTimeout(cleaningValidityMessage, TIMEOUT_FOR_CHECK);
   };
 
   var setFirstStateCapacity = function () {
@@ -69,9 +70,9 @@
   };
 
   var capacityChangeHandler = function (evt) {
-    for (var i = 0; i < capacity.children.length; i++) {
-      capacity.children[i].disabled = false;
-    }
+    [].forEach.call(capacity.children, function (it) {
+      it.disabled = false;
+    });
     setCapacityState(evt);
     capacity.setCustomValidity('Проверьте, пожалуйста, количество мест для гостей!');
     capacity.addEventListener('invalid', capacityInvalidHandler);

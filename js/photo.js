@@ -19,7 +19,7 @@
 
   var setImage = function (file, element) {
 
-    if (file) {
+    if (file && element) {
       var fileName = file.name.toLowerCase();
 
       var matches = FILE_TYPES.some(function (it) {
