@@ -120,7 +120,7 @@
     removePins();
     installMainPin();
     setAddress(true);
-    window.filter.formFilter.reset();
+    window.filter.form.reset();
     window.photo.resetImages();
   };
 

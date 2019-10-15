@@ -127,7 +127,8 @@
   };
 
   var startCreate = function (advertsData) {
-    var addPinButtonClickHandler = function (pinButton, indexNumber) {
+    var addHandler = function (pinButton, indexNumber) {
+
       var pinButtonClickHandler = function () {
         removeCard();
         map.insertBefore(createCard(advertsData, indexNumber), mapFiltersContainer);
@@ -145,10 +146,12 @@
         };
         document.addEventListener('keydown', popupEscHandler);
       };
+
       pinButton.addEventListener('click', pinButtonClickHandler);
     };
+
     for (var i = INDEX_PIN_FIRST; i < pinList.children.length; i++) {
-      addPinButtonClickHandler(pinList.children[i], (i - INDEX_PIN_FIRST));
+      addHandler(pinList.children[i], (i - INDEX_PIN_FIRST));
     }
   };
 
