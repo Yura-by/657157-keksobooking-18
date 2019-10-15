@@ -4,8 +4,8 @@
 
   var PinCoordinate = {
     X: {
-      MAX: 1137,
-      MIN: 0
+      MAX: 1169,
+      MIN: -31
     },
     Y: {
       MAX: 630,
@@ -35,33 +35,41 @@
       };
 
       var coordsCalculate = {
-        left: window.map.mapPinMain.offsetLeft - shift.x,
-        top: window.map.mapPinMain.offsetTop - shift.y
+        left: window.map.pinMain.offsetLeft - shift.x,
+        top: window.map.pinMain.offsetTop - shift.y
       };
 
       var resultCoords = {
-        X: 0,
-        Y: 0
+        x: 0,
+        y: 0
       };
 
-      if (coordsCalculate.left >= PinCoordinate.X.MIN && coordsCalculate.left <= PinCoordinate.X.MAX) {
-        resultCoords.X = coordsCalculate.left;
-      } else if (coordsCalculate.left < PinCoordinate.X.MIN) {
-        resultCoords.X = PinCoordinate.X.MIN;
-      } else if (coordsCalculate.left > PinCoordinate.X.MAX) {
-        resultCoords.X = PinCoordinate.X.MAX;
+      switch (true) {
+        case (coordsCalculate.left >= PinCoordinate.X.MIN && coordsCalculate.left <= PinCoordinate.X.MAX) :
+          resultCoords.x = coordsCalculate.left;
+          break;
+        case (coordsCalculate.left < PinCoordinate.X.MIN) :
+          resultCoords.x = PinCoordinate.X.MIN;
+          break;
+        case (coordsCalculate.left > PinCoordinate.X.MAX) :
+          resultCoords.x = PinCoordinate.X.MAX;
+          break;
       }
 
-      if (coordsCalculate.top >= PinCoordinate.Y.MIN && coordsCalculate.top <= PinCoordinate.Y.MAX) {
-        resultCoords.Y = coordsCalculate.top;
-      } else if (coordsCalculate.top < PinCoordinate.Y.MIN) {
-        resultCoords.Y = PinCoordinate.Y.MIN;
-      } else if (coordsCalculate.top > PinCoordinate.Y.MAX) {
-        resultCoords.Y = PinCoordinate.Y.MAX;
+      switch (true) {
+        case (coordsCalculate.top >= PinCoordinate.Y.MIN && coordsCalculate.top <= PinCoordinate.Y.MAX) :
+          resultCoords.y = coordsCalculate.top;
+          break;
+        case (coordsCalculate.top < PinCoordinate.Y.MIN) :
+          resultCoords.y = PinCoordinate.Y.MIN;
+          break;
+        case (coordsCalculate.top > PinCoordinate.Y.MAX) :
+          resultCoords.y = PinCoordinate.Y.MAX;
+          break;
       }
 
-      window.map.mapPinMain.style.left = resultCoords.X + 'px';
-      window.map.mapPinMain.style.top = resultCoords.Y + 'px';
+      window.map.pinMain.style.left = resultCoords.x + 'px';
+      window.map.pinMain.style.top = resultCoords.y + 'px';
 
       window.map.setAddress();
     };

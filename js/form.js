@@ -8,20 +8,19 @@
     OPTION_3: '3',
     OPTION_4: '100'
   };
-
   var CapacityChild = {
     CHILD_1: 0,
     CHILD_2: 1,
     CHILD_3: 2,
     CHILD_4: 3
   };
-
   var roomNumber = window.map.adForm.querySelector('#room_number');
   var capacity = window.map.adForm.querySelector('#capacity');
   var inputTypeHousing = window.map.adForm.querySelector('#type');
   var selectTimeIn = window.map.adForm.querySelector('#timein');
   var selectTimeOut = window.map.adForm.querySelector('#timeout');
   var inputPriceHousing = window.map.adForm.querySelector('#price');
+  var buttonReset = window.map.adForm.querySelector('.ad-form__reset');
 
   var setCapacityValue = function (value) {
     capacity.value = value + '';
@@ -39,7 +38,7 @@
   };
 
   var capacityInvalidHandler = function () {
-    setTimeout(cleaningValidityMessage, 2000);
+    setTimeout(cleaningValidityMessage, 1000);
   };
 
   var setFirstStateCapacity = function () {
@@ -100,8 +99,13 @@
 
   window.map.adForm.addEventListener('submit', function (evt) {
     var form = new FormData(window.map.adForm);
-    window.backend.save(form, window.map.getInactiveState, window.popups.createPopupError);
+    window.backend.save(form, window.map.getInactiveState, window.popups.createError);
     evt.preventDefault();
+  });
+
+  buttonReset.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    window.map.getInactiveState(true);
   });
 
 })();

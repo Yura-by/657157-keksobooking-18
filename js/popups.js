@@ -6,32 +6,36 @@
   var main = document.body.querySelector('main');
   var templateSccessPopup = document.querySelector('#success').content.querySelector('.success');
 
-  var createPopupError = function (errorMessage) {
+  var createError = function (errorMessage) {
     var errorPopup = templateErrorPopup.cloneNode(true);
     var message = errorPopup.querySelector('.error__message');
     message.textContent = errorMessage;
     var button = errorPopup.querySelector('.error__button');
 
-    var clickHandler = function () {
+    var removePopup = function () {
       errorPopup.remove();
     };
 
     var escPressHandler = function (evt) {
       window.util.escKeydownHandler(evt, function () {
-        clickHandler();
+        removePopup();
         document.removeEventListener('keydown', escPressHandler);
       });
     };
 
-    button.addEventListener('click', clickHandler);
+    button.addEventListener('click', function () {
+      errorPopup.remove();
+    });
     document.addEventListener('keydown', escPressHandler);
-    errorPopup.addEventListener('click', clickHandler);
+    errorPopup.addEventListener('click', function () {
+      errorPopup.remove();
+    });
 
     main.insertAdjacentElement('afterbegin', errorPopup);
     button.focus();
   };
 
-  var createPopupSuccess = function () {
+  var createSuccess = function () {
     var successPopup = templateSccessPopup.cloneNode(true);
 
     var removePopup = function () {
@@ -52,8 +56,8 @@
   };
 
   window.popups = {
-    createPopupSuccess: createPopupSuccess,
-    createPopupError: createPopupError
+    createSuccess: createSuccess,
+    createError: createError
   };
 
 })();
