@@ -126,6 +126,13 @@
     }
   };
 
+  var popupEscHandler = function (evt) {
+    window.util.escKeydownHandler(evt, function () {
+      map.children[1].remove();
+      document.removeEventListener('keydown', popupEscHandler);
+    });
+  };
+
   var startCreate = function (advertsData) {
     var addHandler = function (pinButton, indexNumber) {
 
@@ -135,15 +142,17 @@
         var newMapPopup = map.querySelector('.popup');
         var buttonClosePopup = newMapPopup.querySelector('.popup__close');
         buttonClosePopup.addEventListener('click', function () {
-          removePopupEsc();
+          newMapPopup.remove();
+          document.removeEventListener('keydown', popupEscHandler);
         });
-        var removePopupEsc = function () {
+
+        /*var removePopupEsc = function () {
           newMapPopup.remove();
           document.removeEventListener('keydown', popupEscHandler);
         };
         var popupEscHandler = function (evt) {
           window.util.escKeydownHandler(evt, removePopupEsc);
-        };
+        };*/
         document.addEventListener('keydown', popupEscHandler);
       };
 
