@@ -66,21 +66,56 @@
     var cardDescription = card.querySelector('.popup__description');
     var cardPhotos = card.querySelector('.popup__photos');
     var cardAvatar = card.querySelector('.popup__avatar');
-
-    cardInner[currentIndex].offer.title ? cardTitle.textContent = cardInner[currentIndex].offer.title : cardTitle.remove();
-    cardInner[currentIndex].offer.address ? cardAdress.textContent = cardInner[currentIndex].offer.address : cardAdress.remove();
-    cardInner[currentIndex].offer.price ? cardAdress.textContent = cardInner[currentIndex].offer.price + '₽/ночь' : cardPrice.remove();
-    cardInner[currentIndex].offer.type ? cardType.textContent = typeHousingMap.translate[cardInner[currentIndex].offer.type] : cardType.remove();
-    cardInner[currentIndex].offer.rooms && cardInner[currentIndex].offer.guests ?
-    cardCapacity.textContent = cardInner[currentIndex].offer.rooms + ' комнаты для ' + cardInner[currentIndex].offer.guests + ' гостей':
-    cardCapacity.remove();
-    cardInner[currentIndex].offer.checkin && cardInner[currentIndex].offer.checkout ?
-    cardCheckinOut.textContent = 'заезд после ' + cardInner[currentIndex].offer.checkin + ', выезд до ' + cardInner[currentIndex].offer.checkout :
-    cardCheckinOut.remove();
-    cardInner[currentIndex].offer.features ? featuresAssembly(cardFeatures, cardInner[currentIndex].offer.features) : cardFeatures.remove();
-    cardInner[currentIndex].offer.description ? cardDescription.textContent = cardInner[currentIndex].offer.description : cardDescription.remove();
-    cardInner[currentIndex].offer.photos ? createPhotosList(cardPhotos, cardInner[currentIndex].offer.photos) : cardPhotos.remove();
-    cardInner[currentIndex].author.avatar ? cardAvatar.src = cardInner[currentIndex].author.avatar : cardAvatar.remove();
+    if (cardInner[currentIndex].offer.title) {
+      cardTitle.textContent = cardInner[currentIndex].offer.title;
+    } else {
+      cardTitle.remove();
+    }
+    if (cardInner[currentIndex].offer.address) {
+      cardAdress.textContent = cardInner[currentIndex].offer.address;
+    } else {
+      cardAdress.remove();
+    }
+    if (cardInner[currentIndex].offer.price) {
+      cardPrice.textContent = cardInner[currentIndex].offer.price + '₽/ночь';
+    } else {
+      cardPrice.remove();
+    }
+    if (cardInner[currentIndex].offer.type) {
+      cardType.textContent = typeHousingMap.translate[cardInner[currentIndex].offer.type];
+    } else {
+      cardType.remove();
+    }
+    if (cardInner[currentIndex].offer.rooms && cardInner[currentIndex].offer.guests) {
+      cardCapacity.textContent = cardInner[currentIndex].offer.rooms + ' комнаты для ' + cardInner[currentIndex].offer.guests + ' гостей';
+    } else {
+      cardCapacity.remove();
+    }
+    if (cardInner[currentIndex].offer.checkin && cardInner[currentIndex].offer.checkout) {
+      cardCheckinOut.textContent = 'заезд после ' + cardInner[currentIndex].offer.checkin + ', выезд до ' + cardInner[currentIndex].offer.checkout;
+    } else {
+      cardCheckinOut.remove();
+    }
+    if (cardInner[currentIndex].offer.features) {
+      featuresAssembly(cardFeatures, cardInner[currentIndex].offer.features);
+    } else {
+      cardFeatures.remove();
+    }
+    if (cardInner[currentIndex].offer.description) {
+      cardDescription.textContent = cardInner[currentIndex].offer.description;
+    } else {
+      cardDescription.remove();
+    }
+    if (cardInner[currentIndex].offer.photos) {
+      createPhotosList(cardPhotos, cardInner[currentIndex].offer.photos);
+    } else {
+      cardPhotos.remove();
+    }
+    if (cardInner[currentIndex].author.avatar) {
+      cardAvatar.src = cardInner[currentIndex].author.avatar;
+    } else {
+      cardAvatar.remove();
+    }
     return card;
   };
 
@@ -101,22 +136,17 @@
         buttonClosePopup.addEventListener('click', function () {
           newMapPopup.remove();
         });
-
         var removePopup = function () {
           newMapPopup.remove();
           document.removeEventListener('keydown', popupEscHandler);
         };
-
         var popupEscHandler = function (evt) {
           window.util.escKeydownHandler(evt, removePopup);
         };
-
         document.addEventListener('keydown', popupEscHandler);
       };
-
       pinButton.addEventListener('click', pinButtonClickHandler);
     };
-
     for (var i = INDEX_PIN_FIRST; i < pinList.children.length; i++) {
       addPinButtonClickHandler(pinList.children[i], (i - INDEX_PIN_FIRST));
     }

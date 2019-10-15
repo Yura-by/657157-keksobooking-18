@@ -12,6 +12,10 @@
     POSITION: {
       X: 300,
       Y: 200
+    },
+    DEFAULT: {
+      LEFT: '570px',
+      TOP: '375px'
     }
   };
   var pinMain = window.card.map.querySelector('.map__pin--main');
@@ -69,8 +73,8 @@
   };
 
   var installMainPin = function () {
-    pinMain.style.left = '570px';
-    pinMain.style.top = '375px';
+    pinMain.style.left = PinMainProperty.DEFAULT.LEFT;
+    pinMain.style.top = PinMainProperty.DEFAULT.TOP;
   };
 
   var successHandler = function (data) {
