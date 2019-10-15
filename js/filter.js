@@ -5,11 +5,11 @@
 
   var ANY = 'any';
   var Price = {
-    number: {
+    NUMBER: {
       LOW: 10000,
       HIGH: 50000
     },
-    value: {
+    VALUE: {
       LOW: 'low',
       MIDDLE: 'middle',
       HIGH: 'high'
@@ -53,12 +53,12 @@
     switch (true) {
       case (price.value === ANY):
         return true;
-      case (price.value === Price.value.LOW):
-        return priceAd < Price.number.LOW;
-      case (price.value === Price.value.MIDDLE):
-        return priceAd >= Price.number.LOW && priceAd < Price.number.HIGH;
-      case (price.value === Price.value.HIGH):
-        return priceAd >= Price.number.HIGH;
+      case (price.value === Price.VALUE.LOW):
+        return priceAd < Price.NUMBER.LOW;
+      case (price.value === Price.VALUE.MIDDLE):
+        return priceAd >= Price.NUMBER.LOW && priceAd < Price.NUMBER.HIGH;
+      case (price.value === Price.VALUE.HIGH):
+        return priceAd >= Price.NUMBER.HIGH;
     }
     return false;
   };

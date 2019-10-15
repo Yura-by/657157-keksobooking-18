@@ -6,7 +6,7 @@
   var main = document.body.querySelector('main');
   var templateSccessPopup = document.querySelector('#success').content.querySelector('.success');
 
-  var createPopupError = function (errorMessage) {
+  var createError = function (errorMessage) {
     var errorPopup = templateErrorPopup.cloneNode(true);
     var message = errorPopup.querySelector('.error__message');
     message.textContent = errorMessage;
@@ -31,7 +31,7 @@
     button.focus();
   };
 
-  var createPopupSuccess = function () {
+  var createSuccess = function () {
     var successPopup = templateSccessPopup.cloneNode(true);
 
     var removePopup = function () {
@@ -52,8 +52,8 @@
   };
 
   window.popups = {
-    createPopupSuccess: createPopupSuccess,
-    createPopupError: createPopupError
+    createSuccess: createSuccess,
+    createError: createError
   };
 
 })();

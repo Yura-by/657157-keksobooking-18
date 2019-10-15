@@ -35,8 +35,8 @@
       };
 
       var coordsCalculate = {
-        left: window.map.mapPinMain.offsetLeft - shift.x,
-        top: window.map.mapPinMain.offsetTop - shift.y
+        left: window.map.pinMain.offsetLeft - shift.x,
+        top: window.map.pinMain.offsetTop - shift.y
       };
 
       var resultCoords = {
@@ -60,8 +60,8 @@
         resultCoords.Y = PinCoordinate.Y.MAX;
       }
 
-      window.map.mapPinMain.style.left = resultCoords.X + 'px';
-      window.map.mapPinMain.style.top = resultCoords.Y + 'px';
+      window.map.pinMain.style.left = resultCoords.X + 'px';
+      window.map.pinMain.style.top = resultCoords.Y + 'px';
 
       window.map.setAddress();
     };

@@ -6,7 +6,7 @@
   var INDEX_PIN_FIRST = 2;
 
   var typeHousingMap = {
-    translateType: {
+    translate: {
       palace: 'Дворец',
       flat: 'Квартира',
       house: 'Дом',
@@ -54,7 +54,7 @@
     image.src = photosSources[0];
   };
 
-  var createCardElement = function (cardInner, currentIndex) {
+  var createCard = function (cardInner, currentIndex) {
     var card = templateCard.cloneNode(true);
     var cardTitle = card.querySelector('.popup__title');
     var cardAdress = card.querySelector('.popup__text--address');
@@ -69,7 +69,7 @@
     cardInner[currentIndex].offer.title ? cardTitle.textContent = cardInner[currentIndex].offer.title : cardTitle.remove();
     cardInner[currentIndex].offer.address ? cardAdress.textContent = cardInner[currentIndex].offer.address : cardAdress.remove();
     cardInner[currentIndex].offer.price ? cardAdress.textContent = cardInner[currentIndex].offer.price + '₽/ночь' : cardPrice.remove();
-    cardInner[currentIndex].offer.type ? cardType.textContent = typeHousingMap.translateType[cardInner[currentIndex].offer.type] : cardType.remove();
+    cardInner[currentIndex].offer.type ? cardType.textContent = typeHousingMap.translate[cardInner[currentIndex].offer.type] : cardType.remove();
     cardInner[currentIndex].offer.rooms && cardInner[currentIndex].offer.guests ?
     cardCapacity.textContent = cardInner[currentIndex].offer.rooms + ' комнаты для ' + cardInner[currentIndex].offer.guests + ' гостей':
     cardCapacity.remove();
@@ -90,12 +90,11 @@
     }
   };
 
-  var startCreateCard = function (advertsData) {
+  var startCreate = function (advertsData) {
     var addPinButtonClickHandler = function (pinButton, indexNumber) {
-
       var pinButtonClickHandler = function () {
         removeCard();
-        map.insertBefore(createCardElement(advertsData, indexNumber), mapFiltersContainer);
+        map.insertBefore(createCard(advertsData, indexNumber), mapFiltersContainer);
         var newMapPopup = map.querySelector('.popup');
         var buttonClosePopup = newMapPopup.querySelector('.popup__close');
         buttonClosePopup.addEventListener('click', function () {
@@ -127,7 +126,7 @@
     typeHousingMap: typeHousingMap,
     map: map,
     pinList: pinList,
-    startCreateCard: startCreateCard,
+    startCreate: startCreate,
     removeCard: removeCard
   };
 

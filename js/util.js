@@ -3,21 +3,20 @@
 (function () {
 
   var DEBOUNCE_INTERVAL = 500;
-
-  var KeyCodeName = {
+  var KeyName = {
     ESC_KEYCODE: 27,
     ENTER_KEYCODE: 13
   };
 
   var escKeydownHandler = function (evt, action) {
-    if (evt.keyCode === KeyCodeName.ESC_KEYCODE) {
+    if (evt.keyCode === KeyName.ESC_KEYCODE) {
       evt.preventDefault();
       action();
     }
   };
 
   var enterKeydownHandler = function (evt, action) {
-    if (evt.keyCode === KeyCodeName.ENTER_KEYCODE) {
+    if (evt.keyCode === KeyName.ENTER_KEYCODE) {
       action();
     }
   };

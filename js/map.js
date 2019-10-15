@@ -3,28 +3,28 @@
 (function () {
 
   var PINS_QUANTITY = 5;
-  var PinMain = {
-    size: {
+  var PinMainProperty = {
+    SIZE: {
       WIDTH: 65,
       HEIGHT: 87,
       DEFAULT_HEIGHT: 65
     },
-    position: {
+    POSITION: {
       X: 300,
       Y: 200
     }
   };
-  var mapPinMain = window.card.map.querySelector('.map__pin--main');
+  var pinMain = window.card.map.querySelector('.map__pin--main');
   var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
   var fragment = document.createDocumentFragment();
-  var elementsMapFiltersForm = window.card.map.querySelector('.map__filters').children;
+  var childrensMapFiltersForm = window.card.map.querySelector('.map__filters').children;
   var adForm = document.querySelector('.ad-form');
-  var elementsAdForm = adForm.children;
+  var childrensAdForm = adForm.children;
   var inputAddress = adForm.querySelector('#address');
 
   var setAddress = function (isDefault) {
-    var pointerHeight = isDefault ? PinMain.size.DEFAULT_HEIGHT / 2 : PinMain.size.HEIGHT;
-    inputAddress.value = Math.round(PinMain.position.X + mapPinMain.offsetLeft + PinMain.size.WIDTH / 2) + ', ' + Math.round(PinMain.position.Y + mapPinMain.offsetTop + pointerHeight);
+    var pointerHeight = isDefault ? PinMainProperty.SIZE.DEFAULT_HEIGHT / 2 : PinMainProperty.SIZE.HEIGHT;
+    inputAddress.value = Math.round(PinMainProperty.POSITION.X + pinMain.offsetLeft + PinMainProperty.SIZE.WIDTH / 2) + ', ' + Math.round(PinMainProperty.POSITION.Y + pinMain.offsetTop + pointerHeight);
   };
 
   var createFragmentPins = function (pinsInner) {
@@ -54,12 +54,12 @@
     }
   };
 
-  var mapPinMainMoseDownHandler = function () {
-    window.backend.load(successHandler, window.popups.createPopupError);
+  var pinMainMoseDownHandler = function () {
+    window.backend.load(successHandler, window.popups.createError);
   };
 
-  var mapPinMainKeydownHandler = function (evt) {
-    window.util.enterKeydownHandler(evt, mapPinMainMoseDownHandler);
+  var pinMainKeydownHandler = function (evt) {
+    window.util.enterKeydownHandler(evt, pinMainMoseDownHandler);
   };
 
   var removePins = function () {
@@ -69,8 +69,8 @@
   };
 
   var installMainPin = function () {
-    mapPinMain.style.left = '570px';
-    mapPinMain.style.top = '375px';
+    pinMain.style.left = '570px';
+    pinMain.style.top = '375px';
   };
 
   var successHandler = function (data) {
@@ -89,30 +89,28 @@
       removePins();
       window.card.removeCard();
     }
-    try {
-      window.card.pinList.appendChild(createFragmentPins(data));
-    } catch {};
-    window.card.startCreateCard(data);
+    window.card.pinList.appendChild(createFragmentPins(data));
+    window.card.startCreate(data);
   };
 
   var getDefaultState = function () {
-    toggleDisabledAttribute(elementsAdForm, true);
-    toggleDisabledAttribute(elementsMapFiltersForm, true);
+    toggleDisabledAttribute(childrensAdForm, true);
+    toggleDisabledAttribute(childrensMapFiltersForm, true);
     setAddress(true);
-    mapPinMain.addEventListener('mousedown', mapPinMainMoseDownHandler);
-    mapPinMain.addEventListener('keydown', mapPinMainKeydownHandler);
+    pinMain.addEventListener('mousedown', pinMainMoseDownHandler);
+    pinMain.addEventListener('keydown', pinMainKeydownHandler);
   };
 
   getDefaultState();
 
   var getInactiveState = function (reset) {
     if (!reset) {
-      window.popups.createPopupSuccess();
+      window.popups.createSuccess();
     }
     getDefaultState();
     window.card.map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
-    mapPinMain.removeEventListener('mousedown', window.dragPin.pinMainMouseDownHandler);
+    pinMain.removeEventListener('mousedown', window.dragPin.pinMainMouseDownHandler);
     adForm.reset();
     window.card.removeCard();
     removePins();
@@ -123,20 +121,19 @@
   };
 
   var getActiveState = function () {
-    toggleDisabledAttribute(elementsAdForm);
-    toggleDisabledAttribute(elementsMapFiltersForm);
+    toggleDisabledAttribute(childrensAdForm);
+    toggleDisabledAttribute(childrensMapFiltersForm);
     window.card.map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     setAddress();
-    mapPinMain.removeEventListener('mousedown', mapPinMainMoseDownHandler);
-    mapPinMain.removeEventListener('keydown', mapPinMainKeydownHandler);
-    mapPinMain.addEventListener('mousedown', window.dragPin.pinMainMouseDownHandler);
+    pinMain.removeEventListener('mousedown', pinMainMoseDownHandler);
+    pinMain.removeEventListener('keydown', pinMainKeydownHandler);
+    pinMain.addEventListener('mousedown', window.dragPin.pinMainMouseDownHandler);
   };
 
   window.map = {
     adForm: adForm,
-    elementsAdForm: elementsAdForm,
-    mapPinMain: mapPinMain,
+    pinMain: pinMain,
     setAddress: setAddress,
     getInactiveState: getInactiveState,
     renderPins: renderPins
