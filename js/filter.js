@@ -2,28 +2,27 @@
 
 (function () {
 
-
   var ANY = 'any';
   var Price = {
-    number: {
+    NUMBER: {
       LOW: 10000,
       HIGH: 50000
     },
-    value: {
+    VALUE: {
       LOW: 'low',
       MIDDLE: 'middle',
       HIGH: 'high'
     }
   };
-  var formFilter = document.querySelector('.map__filters');
-  var type = formFilter.querySelector('#housing-type');
-  var price = formFilter.querySelector('#housing-price');
-  var rooms = formFilter.querySelector('#housing-rooms');
-  var guests = formFilter.querySelector('#housing-guests');
-  var inputsFeatures = formFilter.querySelectorAll('input[name="features"]');
+  var form = document.querySelector('.map__filters');
+  var type = form.querySelector('#housing-type');
+  var price = form.querySelector('#housing-price');
+  var rooms = form.querySelector('#housing-rooms');
+  var guests = form.querySelector('#housing-guests');
+  var featuresChoosers = form.querySelectorAll('input[name="features"]');
 
   var getArrayFeatures = function () {
-    return [].filter.call(inputsFeatures, function (it) {
+    return [].filter.call(featuresChoosers, function (it) {
       return it.checked === true;
     }).map(function (it) {
       return it.value;
@@ -53,12 +52,12 @@
     switch (true) {
       case (price.value === ANY):
         return true;
-      case (price.value === Price.value.LOW):
-        return priceAd < Price.number.LOW;
-      case (price.value === Price.value.MIDDLE):
-        return priceAd >= Price.number.LOW && priceAd < Price.number.HIGH;
-      case (price.value === Price.value.HIGH):
-        return priceAd >= Price.number.HIGH;
+      case (price.value === Price.VALUE.LOW):
+        return priceAd < Price.NUMBER.LOW;
+      case (price.value === Price.VALUE.MIDDLE):
+        return priceAd >= Price.NUMBER.LOW && priceAd < Price.NUMBER.HIGH;
+      case (price.value === Price.VALUE.HIGH):
+        return priceAd >= Price.NUMBER.HIGH;
     }
     return false;
   };
@@ -88,21 +87,33 @@
     window.map.renderPins(adsFiltered);
   };
 
-  var changeClickHandler = window.util.debounce(function () {
+  var inputChangeHandler = window.util.debounce(function () {
+    updatePins();
+  });
+  var typeChangeHandler = window.util.debounce(function () {
+    updatePins();
+  });
+  var priceChangeHandler = window.util.debounce(function () {
+    updatePins();
+  });
+  var roomsChangeHandler = window.util.debounce(function () {
+    updatePins();
+  });
+  var guestsChangeHandler = window.util.debounce(function () {
     updatePins();
   });
 
-  type.addEventListener('change', changeClickHandler);
-  price.addEventListener('change', changeClickHandler);
-  rooms.addEventListener('change', changeClickHandler);
-  guests.addEventListener('change', changeClickHandler);
+  type.addEventListener('change', typeChangeHandler);
+  price.addEventListener('change', priceChangeHandler);
+  rooms.addEventListener('change', roomsChangeHandler);
+  guests.addEventListener('change', guestsChangeHandler);
 
-  inputsFeatures.forEach(function (input) {
-    input.addEventListener('change', changeClickHandler);
+  featuresChoosers.forEach(function (input) {
+    input.addEventListener('change', inputChangeHandler);
   });
 
   window.filter = {
-    formFilter: formFilter
+    form: form
   };
 
 })();

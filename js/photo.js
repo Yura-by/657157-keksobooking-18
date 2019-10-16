@@ -4,6 +4,7 @@
 
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var TAG_NAME = 'img';
+  var INDEX_IMAGE = 0;
   var PropertyPreview = {
     WIDTH: '70px',
     HEIGHT: '70px',
@@ -16,10 +17,9 @@
   var fileChooserImage = window.map.adForm.querySelector('.ad-form__input');
   var previewImage = window.map.adForm.querySelector('.ad-form__photo');
 
-  var setImage = function (chooser, element) {
-    var file = chooser;
+  var setImage = function (file, element) {
 
-    if (file) {
+    if (file && element) {
       var fileName = file.name.toLowerCase();
 
       var matches = FILE_TYPES.some(function (it) {
@@ -47,11 +47,11 @@
   };
 
   fileChooserAvatar.addEventListener('change', function () {
-    setImage(fileChooserAvatar.files[0], previewAvatar);
+    setImage(fileChooserAvatar.files[INDEX_IMAGE], previewAvatar);
   });
 
   fileChooserImage.addEventListener('change', function () {
-    setImage(fileChooserImage.files[0], previewImage);
+    setImage(fileChooserImage.files[INDEX_IMAGE], previewImage);
   });
 
   var resetImages = function () {

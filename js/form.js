@@ -2,26 +2,25 @@
 
 (function () {
 
-  var QuantityRoom = {
+  var TIMEOUT_FOR_CHECK = 1000;
+  var QuantityRooms = {
     OPTION_1: '1',
     OPTION_2: '2',
     OPTION_3: '3',
     OPTION_4: '100'
   };
-
   var CapacityChild = {
     CHILD_1: 0,
     CHILD_2: 1,
     CHILD_3: 2,
     CHILD_4: 3
   };
-
   var roomNumber = window.map.adForm.querySelector('#room_number');
   var capacity = window.map.adForm.querySelector('#capacity');
-  var inputTypeHousing = window.map.adForm.querySelector('#type');
+  var typeHousing = window.map.adForm.querySelector('#type');
   var selectTimeIn = window.map.adForm.querySelector('#timein');
   var selectTimeOut = window.map.adForm.querySelector('#timeout');
-  var inputPriceHousing = window.map.adForm.querySelector('#price');
+  var priceHousing = window.map.adForm.querySelector('#price');
   var buttonReset = window.map.adForm.querySelector('.ad-form__reset');
 
   var setCapacityValue = function (value) {
@@ -29,9 +28,9 @@
   };
 
   var setCapasityOptionDisabled = function (numbers) {
-    for (var i = 0; i < numbers.length; i++) {
-      capacity.children[numbers[i]].disabled = true;
-    }
+    numbers.forEach(function (it) {
+      capacity.children[it].disabled = true;
+    });
   };
 
   var cleaningValidityMessage = function () {
@@ -40,7 +39,7 @@
   };
 
   var capacityInvalidHandler = function () {
-    setTimeout(cleaningValidityMessage, 2000);
+    setTimeout(cleaningValidityMessage, TIMEOUT_FOR_CHECK);
   };
 
   var setFirstStateCapacity = function () {
@@ -52,28 +51,28 @@
 
   var setCapacityState = function (evt) {
     switch (evt.target.value) {
-      case QuantityRoom.OPTION_1:
+      case QuantityRooms.OPTION_1:
         setCapacityValue(CapacityChild.CHILD_2);
         setCapasityOptionDisabled([CapacityChild.CHILD_2, CapacityChild.CHILD_1, CapacityChild.CHILD_2, CapacityChild.CHILD_4]);
         break;
-      case QuantityRoom.OPTION_2:
+      case QuantityRooms.OPTION_2:
         setCapacityValue(CapacityChild.CHILD_3);
         setCapasityOptionDisabled([CapacityChild.CHILD_1, CapacityChild.CHILD_4]);
         break;
-      case QuantityRoom.OPTION_3:
+      case QuantityRooms.OPTION_3:
         setCapacityValue(CapacityChild.CHILD_4);
         setCapasityOptionDisabled([CapacityChild.CHILD_4]);
         break;
-      case QuantityRoom.OPTION_4:
+      case QuantityRooms.OPTION_4:
         setCapacityValue(CapacityChild.CHILD_1);
         setCapasityOptionDisabled([CapacityChild.CHILD_1, CapacityChild.CHILD_2, CapacityChild.CHILD_3]);
     }
   };
 
   var capacityChangeHandler = function (evt) {
-    for (var i = 0; i < capacity.children.length; i++) {
-      capacity.children[i].disabled = false;
-    }
+    [].forEach.call(capacity.children, function (it) {
+      it.disabled = false;
+    });
     setCapacityState(evt);
     capacity.setCustomValidity('Проверьте, пожалуйста, количество мест для гостей!');
     capacity.addEventListener('invalid', capacityInvalidHandler);
@@ -81,15 +80,19 @@
 
   roomNumber.addEventListener('change', capacityChangeHandler);
 
-  inputPriceHousing.min = window.card.typeHousingMap.minPrice[inputTypeHousing.value];
-  inputPriceHousing.placeholder = window.card.typeHousingMap.minPrice[inputTypeHousing.value];
+  priceHousing.min = window.card.typeHousingMap.minPrice[typeHousing.value];
+  priceHousing.placeholder = window.card.typeHousingMap.minPrice[typeHousing.value];
 
-  var inputTypeHousingChangeHandler = function () {
-    inputPriceHousing.min = window.card.typeHousingMap.minPrice[inputTypeHousing.value];
-    inputPriceHousing.placeholder = window.card.typeHousingMap.minPrice[inputTypeHousing.value];
+  var typeHousingChangeHandler = function () {
+    priceHousing.min = window.card.typeHousingMap.minPrice[typeHousing.value];
+    priceHousing.placeholder = window.card.typeHousingMap.minPrice[typeHousing.value];
   };
 
-  inputTypeHousing.addEventListener('change', inputTypeHousingChangeHandler);
+  var setPlaceholder = function () {
+    priceHousing.placeholder = window.card.typeHousingMap.minPrice.flat;
+  };
+
+  typeHousing.addEventListener('change', typeHousingChangeHandler);
 
   selectTimeIn.addEventListener('change', function () {
     selectTimeOut.value = selectTimeIn.value;
@@ -99,15 +102,22 @@
     selectTimeIn.value = selectTimeOut.value;
   });
 
-  window.map.adForm.addEventListener('submit', function (evt) {
+  var adFormSubmitHandler = function (evt) {
     var form = new FormData(window.map.adForm);
-    window.backend.save(form, window.map.getInactiveState, window.popups.createPopupError);
+    window.backend.save(form, window.map.getInactiveState, window.popups.createError);
     evt.preventDefault();
-  });
+  };
+
+  window.map.adForm.addEventListener('submit', adFormSubmitHandler);
 
   buttonReset.addEventListener('click', function (evt) {
     evt.preventDefault();
     window.map.getInactiveState(true);
   });
+
+  window.form = {
+    setPlaceholder: setPlaceholder
+  };
+
 
 })();
