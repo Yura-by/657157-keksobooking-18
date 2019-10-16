@@ -21,7 +21,6 @@
       bungalo: 0
     }
   };
-
   var map = document.querySelector('.map');
   var templateCard = document.querySelector('#card').content.querySelector('.popup');
   var mapFiltersContainer = map.querySelector('.map__filters-container');

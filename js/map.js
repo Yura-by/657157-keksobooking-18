@@ -120,6 +120,7 @@
     adForm.classList.add('ad-form--disabled');
     pinMain.removeEventListener('mousedown', window.dragPin.pinMainMouseDownHandler);
     adForm.reset();
+    window.form.setPlaceholder();
     window.card.removePopup();
     removePins();
     installMainPin();

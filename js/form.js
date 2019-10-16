@@ -3,7 +3,7 @@
 (function () {
 
   var TIMEOUT_FOR_CHECK = 1000;
-  var QuantityRoom = {
+  var QuantityRooms = {
     OPTION_1: '1',
     OPTION_2: '2',
     OPTION_3: '3',
@@ -51,19 +51,19 @@
 
   var setCapacityState = function (evt) {
     switch (evt.target.value) {
-      case QuantityRoom.OPTION_1:
+      case QuantityRooms.OPTION_1:
         setCapacityValue(CapacityChild.CHILD_2);
         setCapasityOptionDisabled([CapacityChild.CHILD_2, CapacityChild.CHILD_1, CapacityChild.CHILD_2, CapacityChild.CHILD_4]);
         break;
-      case QuantityRoom.OPTION_2:
+      case QuantityRooms.OPTION_2:
         setCapacityValue(CapacityChild.CHILD_3);
         setCapasityOptionDisabled([CapacityChild.CHILD_1, CapacityChild.CHILD_4]);
         break;
-      case QuantityRoom.OPTION_3:
+      case QuantityRooms.OPTION_3:
         setCapacityValue(CapacityChild.CHILD_4);
         setCapasityOptionDisabled([CapacityChild.CHILD_4]);
         break;
-      case QuantityRoom.OPTION_4:
+      case QuantityRooms.OPTION_4:
         setCapacityValue(CapacityChild.CHILD_1);
         setCapasityOptionDisabled([CapacityChild.CHILD_1, CapacityChild.CHILD_2, CapacityChild.CHILD_3]);
     }
@@ -88,6 +88,10 @@
     priceHousing.placeholder = window.card.typeHousingMap.minPrice[typeHousing.value];
   };
 
+  var setPlaceholder = function () {
+    priceHousing.placeholder = window.card.typeHousingMap.minPrice.flat;
+  };
+
   typeHousing.addEventListener('change', typeHousingChangeHandler);
 
   selectTimeIn.addEventListener('change', function () {
@@ -98,15 +102,21 @@
     selectTimeIn.value = selectTimeOut.value;
   });
 
-  window.map.adForm.addEventListener('submit', function (evt) {
+  var adFormSubmitHandler = function (evt) {
     var form = new FormData(window.map.adForm);
     window.backend.save(form, window.map.getInactiveState, window.popups.createError);
     evt.preventDefault();
-  });
+  };
+
+  window.map.adForm.addEventListener('submit', adFormSubmitHandler);
 
   buttonReset.addEventListener('click', function (evt) {
     evt.preventDefault();
     window.map.getInactiveState(true);
   });
+
+  window.form = {
+    setPlaceholder: setPlaceholder
+  };
 
 })();

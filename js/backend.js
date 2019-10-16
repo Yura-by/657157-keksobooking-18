@@ -9,7 +9,6 @@
     SAVE: 'https://js.dump.academy/keksobooking'
   };
 
-
   var load = function (loadHandler, errorHandler) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';

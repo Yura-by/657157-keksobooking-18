@@ -2,7 +2,6 @@
 
 (function () {
 
-
   var ANY = 'any';
   var Price = {
     NUMBER: {
