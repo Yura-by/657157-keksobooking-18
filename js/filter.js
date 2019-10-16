@@ -62,12 +62,12 @@
     return false;
   };
 
-  var getAskType = function (element) {
-    return type.value === ANY || type.value === element.offer.type;
-  };
-
   var getAskRooms = function (element) {
     return rooms.value === ANY || rooms.value === element.offer.rooms + '';
+  };
+
+  var getAskType = function (element) {
+    return type.value === ANY || type.value === element.offer.type;
   };
 
   var getAskGuests = function (element) {
