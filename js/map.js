@@ -59,7 +59,10 @@
   };
 
   var loadData = function () {
-    window.backend.load(successHandler, window.popups.createError);
+    // Т.к. сервер перестал отдавать правильный заголовок, то отдаем моки
+    // window.backend.load(successHandler, window.popups.createError);
+
+    successHandler(window.mock.MOCK_OFFERS);
   };
 
   var pinMainMoseDownHandler = function () {
